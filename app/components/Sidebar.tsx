@@ -24,8 +24,8 @@ export default function Sidebar() {
           left: 0,
           height: "100vh",
           zIndex: 99,
-          background: "#080808",
-          borderRight: "1px solid #1a1a1a",
+          background: "#AD0702",
+          borderRight: "1px solid #8a0601",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -55,7 +55,7 @@ export default function Sidebar() {
                 display: "block",
                 width: 22,
                 height: 1.5,
-                background: open ? "#c8a96e" : "#f0ede8",
+                background: "#ffffff",
                 transformOrigin: "center",
                 transform:
                   i === 0 && open
@@ -122,9 +122,9 @@ export default function Sidebar() {
             <a
               key={s.label}
               href="#"
-              style={{ color: "#3a3a3a", transition: "color 0.3s", lineHeight: 0 }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#c8a96e")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#3a3a3a")}
+              style={{ color: "#ffffff", transition: "color 0.3s", lineHeight: 0 }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#000000")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}
               aria-label={s.label}
             >
               {s.svg}
@@ -165,7 +165,7 @@ export default function Sidebar() {
                 width: "50vw",
                 height: "100vh",
                 zIndex: 98,
-                background: "#0d0d0d",
+                background: "#AD0702",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
@@ -180,7 +180,7 @@ export default function Sidebar() {
                   background: "none",
                   border: "none",
                   cursor: "pointer",
-                  color: "#f0ede8",
+                  color: "#000000",
                   fontSize: 18,
                   fontFamily: "inherit",
                   fontWeight: 300,
@@ -223,15 +223,15 @@ export default function Sidebar() {
                 style={{ display: "flex", gap: 48, paddingRight: 40 }}
               >
                 <div>
-                  <p style={{ fontSize: 11, fontWeight: 700, color: "#f0ede8", marginBottom: 6 }}>Drop in:</p>
-                  <p style={{ fontSize: 12, color: "#888", lineHeight: 1.7 }}>
+                  <p style={{ fontSize: 11, fontWeight: 700, color: "#000000", marginBottom: 6 }}>Drop in:</p>
+                  <p style={{ fontSize: 12, color: "rgba(0,0,0,0.6)", lineHeight: 1.7 }}>
                     1 Grand Canal Square<br />
                     Dublin 2 · D02 A342 · Ireland
                   </p>
                 </div>
                 <div>
-                  <p style={{ fontSize: 11, fontWeight: 700, color: "#f0ede8", marginBottom: 6 }}>Get in touch:</p>
-                  <a href="tel:+35312345678" style={{ display: "block", fontSize: 12, color: "#888", textDecoration: "none", lineHeight: 1.7 }}>+353 1 234 5678</a>
+                  <p style={{ fontSize: 11, fontWeight: 700, color: "#000000", marginBottom: 6 }}>Get in touch:</p>
+                  <a href="tel:+35312345678" style={{ display: "block", fontSize: 12, color: "rgba(0,0,0,0.6)", textDecoration: "none", lineHeight: 1.7 }}>+353 1 234 5678</a>
                   <a href="mailto:hello@gtgstudios.com" style={{ display: "block", fontSize: 12, color: "#888", textDecoration: "none" }}>hello@gtgstudios.com</a>
                 </div>
               </motion.div>
@@ -260,15 +260,15 @@ function NavItem({ label, onClick, bold, delay }: { label: string; onClick: () =
           fontSize: "clamp(2.2rem, 4.5vw, 5rem)",
           fontWeight: bold ? 700 : 400,
           fontFamily: "inherit",
-          color: "#f0ede8",
+          color: "#000000",
           letterSpacing: bold ? "-0.02em" : "-0.01em",
           padding: "2px 0",
           lineHeight: 1,
           transition: "color 0.25s",
           textTransform: bold ? "uppercase" : "none",
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.color = "#c8a96e")}
-        onMouseLeave={(e) => (e.currentTarget.style.color = "#f0ede8")}
+        onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
+        onMouseLeave={(e) => (e.currentTarget.style.color = "#000000")}
       >
         {label}
       </button>
@@ -293,14 +293,14 @@ function SubItem({ label, onClick, delay }: { label: string; onClick: () => void
           fontSize: "clamp(1.6rem, 3vw, 3.2rem)",
           fontWeight: 300,
           fontFamily: "inherit",
-          color: "#666",
+          color: "rgba(0,0,0,0.55)",
           letterSpacing: "-0.01em",
           padding: "1px 0",
           lineHeight: 1.1,
           transition: "color 0.25s",
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.color = "#c8a96e")}
-        onMouseLeave={(e) => (e.currentTarget.style.color = "#666")}
+        onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
+        onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(0,0,0,0.55)")}
       >
         {label}
       </button>
