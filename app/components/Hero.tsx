@@ -17,9 +17,11 @@ export default function Hero() {
           height: "100vh",
           overflow: "hidden",
           background: "#040404",
+          cursor: "pointer",
         }}
+        onClick={() => setShowreel(true)}
       >
-        {/* YouTube thumbnail as background */}
+        {/* Full-bleed video thumbnail */}
         <div
           style={{
             position: "absolute",
@@ -27,84 +29,112 @@ export default function Hero() {
             backgroundImage: `url(https://img.youtube.com/vi/${YT_ID}/maxresdefault.jpg)`,
             backgroundSize: "cover",
             backgroundPosition: "center",
-            filter: "brightness(0.45)",
           }}
         />
 
-        {/* Centered play button */}
-        <button
-          onClick={() => setShowreel(true)}
-          aria-label="Play Showreel"
+        {/* Dark gradient at bottom so name text is readable */}
+        <div
           style={{
             position: "absolute",
             inset: 0,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            gap: 20,
+            background:
+              "linear-gradient(to top, rgba(4,4,4,0.75) 0%, rgba(4,4,4,0) 50%)",
+            pointerEvents: "none",
           }}
-        >
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            style={{
-              width: 80,
-              height: 80,
-              borderRadius: "50%",
-              border: "1px solid rgba(200,169,110,0.6)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <svg width="20" height="20" fill="#c8a96e" viewBox="0 0 16 16" style={{ marginLeft: 3 }}>
-              <path d="M3 2.5l10 5.5-10 5.5V2.5z" />
-            </svg>
-          </motion.div>
-          <span style={{
-            fontSize: 10,
-            letterSpacing: "0.3em",
-            textTransform: "uppercase",
-            color: "rgba(240,237,232,0.6)",
-            fontFamily: "inherit",
-          }}>
-            Play Showreel
-          </span>
-        </button>
+        />
 
-        {/* Bottom overlay — studio name */}
+        {/* MASSIVE studio name at bottom — exact same placement as Piranha Bar */}
         <div
           style={{
             position: "absolute",
             bottom: 0,
             left: 0,
             right: 0,
-            padding: "40px 70px",
-            background: "linear-gradient(to top, rgba(4,4,4,0.9) 0%, transparent 100%)",
+            padding: "0 30px 0 40px",
             display: "flex",
             alignItems: "flex-end",
             justifyContent: "space-between",
+            pointerEvents: "none",
+            lineHeight: 0.85,
           }}
         >
-          <p style={{
-            fontSize: 11,
-            letterSpacing: "0.3em",
-            textTransform: "uppercase",
-            color: "rgba(240,237,232,0.4)",
-          }}>
-            Film · Video · Production
-          </p>
-          <p style={{
-            fontSize: 11,
-            letterSpacing: "0.3em",
-            textTransform: "uppercase",
-            color: "rgba(240,237,232,0.4)",
-          }}>
-            Dublin · Worldwide
-          </p>
+          <h1
+            style={{
+              fontSize: "clamp(4rem, 13vw, 16rem)",
+              fontWeight: 700,
+              fontStyle: "italic",
+              color: "#ffffff",
+              letterSpacing: "-0.03em",
+              fontFamily: "inherit",
+              whiteSpace: "nowrap",
+            }}
+          >
+            GTG Studios
+            <span style={{ color: "#c8a96e", fontSize: "0.5em", verticalAlign: "super", fontStyle: "normal" }}>®</span>
+          </h1>
+
+          {/* Circle logo mark — mirrors the Piranha Bar compass mark */}
+          <div
+            style={{
+              width: "clamp(48px, 7vw, 110px)",
+              height: "clamp(48px, 7vw, 110px)",
+              borderRadius: "50%",
+              border: "2px solid rgba(255,255,255,0.8)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+              marginBottom: "clamp(8px, 2vw, 24px)",
+            }}
+          >
+            <svg
+              viewBox="0 0 40 40"
+              fill="white"
+              style={{ width: "55%", height: "55%" }}
+            >
+              <path d="M20 2 L22.5 17.5 L38 20 L22.5 22.5 L20 38 L17.5 22.5 L2 20 L17.5 17.5 Z" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Small play hint top-right */}
+        <div
+          style={{
+            position: "absolute",
+            top: 24,
+            right: 32,
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            pointerEvents: "none",
+          }}
+        >
+          <div
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: "50%",
+              border: "1px solid rgba(255,255,255,0.4)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <svg width="12" height="12" fill="white" viewBox="0 0 16 16" style={{ marginLeft: 2 }}>
+              <path d="M3 2.5l10 5.5-10 5.5V2.5z" />
+            </svg>
+          </div>
+          <span
+            style={{
+              fontSize: 9,
+              letterSpacing: "0.25em",
+              textTransform: "uppercase",
+              color: "rgba(255,255,255,0.5)",
+              fontFamily: "inherit",
+            }}
+          >
+            Play Showreel
+          </span>
         </div>
       </section>
 
@@ -124,15 +154,20 @@ export default function Hero() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              padding: "40px",
+              padding: 40,
             }}
           >
             <motion.div
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.95 }}
-              onClick={e => e.stopPropagation()}
-              style={{ position: "relative", width: "100%", maxWidth: 1000, aspectRatio: "16/9" }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                position: "relative",
+                width: "100%",
+                maxWidth: 1000,
+                aspectRatio: "16/9",
+              }}
             >
               <iframe
                 src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&rel=0&modestbranding=1`}
@@ -148,7 +183,7 @@ export default function Hero() {
                   right: 0,
                   background: "none",
                   border: "none",
-                  color: "rgba(240,237,232,0.5)",
+                  color: "rgba(255,255,255,0.5)",
                   fontSize: 10,
                   letterSpacing: "0.3em",
                   textTransform: "uppercase",
