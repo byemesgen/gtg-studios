@@ -21,29 +21,95 @@ export default function Hero() {
         }}
         onClick={() => setShowreel(true)}
       >
-        {/* Full-bleed video thumbnail */}
+        {/* ── Autoplaying background video via YouTube iframe ──
+            Scale trick: iframe is made larger than viewport so it
+            behaves like background-size: cover regardless of aspect ratio. */}
         <div
           style={{
             position: "absolute",
-            inset: 0,
-            backgroundImage: `url(https://img.youtube.com/vi/${YT_ID}/maxresdefault.jpg)`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            top: "50%",
+            left: "50%",
+            /* 16:9 — whichever dimension is smaller gets letterboxed,
+               so we make both at least 100% of their axis */
+            width: "100vw",
+            height: "56.25vw",    /* 16/9 of viewport width */
+            minHeight: "100vh",
+            minWidth: "177.78vh", /* 16/9 of viewport height */
+            transform: "translate(-50%, -50%)",
+            pointerEvents: "none",
           }}
-        />
+        >
+          <iframe
+            src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&controls=0&loop=1&playlist=${YT_ID}&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&enablejsapi=1`}
+            allow="autoplay; fullscreen"
+            allowFullScreen
+            style={{
+              width: "100%",
+              height: "100%",
+              border: "none",
+              pointerEvents: "none",
+            }}
+          />
+        </div>
 
-        {/* Dark gradient at bottom so name text is readable */}
+        {/* Dark gradient overlay so text is readable */}
         <div
           style={{
             position: "absolute",
             inset: 0,
             background:
-              "linear-gradient(to top, rgba(4,4,4,0.75) 0%, rgba(4,4,4,0) 50%)",
+              "linear-gradient(to top, rgba(4,4,4,0.8) 0%, rgba(4,4,4,0.15) 50%, rgba(4,4,4,0.3) 100%)",
             pointerEvents: "none",
           }}
         />
 
-        {/* MASSIVE studio name at bottom — exact same placement as Piranha Bar */}
+        {/* Small play hint — top right */}
+        <div
+          style={{
+            position: "absolute",
+            top: 24,
+            right: 32,
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            pointerEvents: "none",
+          }}
+        >
+          <div
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: "50%",
+              border: "1px solid rgba(255,255,255,0.4)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <svg
+              width="12"
+              height="12"
+              fill="white"
+              viewBox="0 0 16 16"
+              style={{ marginLeft: 2 }}
+            >
+              <path d="M3 2.5l10 5.5-10 5.5V2.5z" />
+            </svg>
+          </div>
+          <span
+            style={{
+              fontSize: 9,
+              letterSpacing: "0.25em",
+              textTransform: "uppercase",
+              color: "rgba(255,255,255,0.5)",
+              fontFamily: "inherit",
+            }}
+          >
+            Play Showreel
+          </span>
+        </div>
+
+        {/* MASSIVE studio name overlay — bottom of hero */}
         <div
           style={{
             position: "absolute",
@@ -70,10 +136,19 @@ export default function Hero() {
             }}
           >
             GTG Studios
-            <span style={{ color: "#c8a96e", fontSize: "0.5em", verticalAlign: "super", fontStyle: "normal" }}>®</span>
+            <span
+              style={{
+                color: "#c8a96e",
+                fontSize: "0.5em",
+                verticalAlign: "super",
+                fontStyle: "normal",
+              }}
+            >
+              ®
+            </span>
           </h1>
 
-          {/* Circle logo mark — mirrors the Piranha Bar compass mark */}
+          {/* Circle compass mark — mirrors Piranha Bar logo mark */}
           <div
             style={{
               width: "clamp(48px, 7vw, 110px)",
@@ -96,49 +171,9 @@ export default function Hero() {
             </svg>
           </div>
         </div>
-
-        {/* Small play hint top-right */}
-        <div
-          style={{
-            position: "absolute",
-            top: 24,
-            right: 32,
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            pointerEvents: "none",
-          }}
-        >
-          <div
-            style={{
-              width: 36,
-              height: 36,
-              borderRadius: "50%",
-              border: "1px solid rgba(255,255,255,0.4)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <svg width="12" height="12" fill="white" viewBox="0 0 16 16" style={{ marginLeft: 2 }}>
-              <path d="M3 2.5l10 5.5-10 5.5V2.5z" />
-            </svg>
-          </div>
-          <span
-            style={{
-              fontSize: 9,
-              letterSpacing: "0.25em",
-              textTransform: "uppercase",
-              color: "rgba(255,255,255,0.5)",
-              fontFamily: "inherit",
-            }}
-          >
-            Play Showreel
-          </span>
-        </div>
       </section>
 
-      {/* Lightbox */}
+      {/* ── Lightbox — full audio/controls version ── */}
       <AnimatePresence>
         {showreel && (
           <motion.div
