@@ -134,13 +134,13 @@ export default function Hero() {
         >
           <h1
             style={{
-              fontSize: "clamp(4rem, 13vw, 16rem)",
+              fontSize: isMobile ? "clamp(2.8rem, 14vw, 5rem)" : "clamp(4rem, 13vw, 16rem)",
               fontWeight: 700,
               fontStyle: "italic",
               color: "#ffffff",
               letterSpacing: "-0.03em",
               fontFamily: "inherit",
-              whiteSpace: "nowrap",
+              whiteSpace: isMobile ? "normal" : "nowrap",
             }}
           >
             GTG Studios

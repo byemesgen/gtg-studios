@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useIsMobile } from "@/app/hooks/useIsMobile";
 
 const WORDS = [
   "We", "are", "a", "full-service",
@@ -13,13 +14,12 @@ const WORDS = [
 
 export default function AnimatedText() {
   const sectionRef = useRef<HTMLElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
-
     const letters = section.querySelectorAll<HTMLSpanElement>(".letter");
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -34,7 +34,6 @@ export default function AnimatedText() {
       },
       { threshold: 0.1 }
     );
-
     observer.observe(section);
     return () => observer.disconnect();
   }, []);
@@ -44,7 +43,9 @@ export default function AnimatedText() {
       ref={sectionRef}
       style={{
         background: "#ffffff",
-        padding: "80px 80px 120px 100px",
+        padding: isMobile
+          ? "44px 22px 56px"
+          : "80px 80px 120px 100px",
       }}
     >
       <h2
@@ -52,8 +53,10 @@ export default function AnimatedText() {
         style={{
           fontFamily: "inherit",
           fontWeight: 700,
-          fontSize: "clamp(1.9rem, 3.2vw, 3.4rem)",
-          lineHeight: 1.1,
+          fontSize: isMobile
+            ? "clamp(1.6rem, 6vw, 2rem)"
+            : "clamp(1.9rem, 3.2vw, 3.4rem)",
+          lineHeight: 1.15,
           letterSpacing: "-0.02em",
           maxWidth: 900,
         }}
