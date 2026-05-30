@@ -25,12 +25,10 @@ export default function Hero() {
           height: isMobile ? "calc(100vh - 55px)" : "100vh",
           overflow: "hidden",
           background: "#040404",
-          cursor: "pointer",
           // Break out of the 65px sidebar page-offset on desktop
           marginLeft: isMobile ? 0 : -65,
           width: "100vw",
         }}
-        onClick={() => setShowreel(true)}
       >
         {/* ── Autoplaying background video via YouTube iframe ──
             Scale trick: iframe is made larger than viewport so it
@@ -76,6 +74,7 @@ export default function Hero() {
 
         {/* Small play hint — top right */}
         <div
+          onClick={() => setShowreel(true)}
           style={{
             position: "absolute",
             top: 24,
@@ -83,7 +82,8 @@ export default function Hero() {
             display: "flex",
             alignItems: "center",
             gap: 10,
-            pointerEvents: "none",
+            cursor: "pointer",
+            zIndex: 10,
           }}
         >
           <div
