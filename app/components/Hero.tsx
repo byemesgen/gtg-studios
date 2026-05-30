@@ -22,7 +22,7 @@ export default function Hero() {
         id="hero"
         style={{
           position: "relative",
-          height: "100vh",
+          height: isMobile ? "calc(100vh - 55px)" : "100vh",
           overflow: "hidden",
           background: "#040404",
           cursor: "pointer",
@@ -127,7 +127,7 @@ export default function Hero() {
             bottom: 0,
             left: 0,
             right: 0,
-            padding: isMobile ? "0 16px 0 16px" : "0 30px 0 40px",
+            padding: isMobile ? "0 16px 16px 16px" : "0 30px 0 40px",
             display: "flex",
             alignItems: "flex-end",
             justifyContent: "space-between",
