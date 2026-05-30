@@ -46,8 +46,8 @@ body {
 */
 .letter {
   display: inline-block;
-  color: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.18);
   transition: color 2s ease;
 }
-.letter.lit        { color: #080808; }
-.letter.lit.accent { color: var(--red); }
+.letter.lit        { color: #000000; }
+.letter.lit.accent { color: #000000; }

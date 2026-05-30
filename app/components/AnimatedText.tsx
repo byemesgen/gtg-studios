@@ -42,7 +42,6 @@ export default function AnimatedText() {
     <section
       ref={sectionRef}
       style={{
-        background: "#ffffff",
         padding: isMobile
           ? "44px 22px 56px"
           : "80px 80px 120px 100px",
