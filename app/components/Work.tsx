@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { useIsMobile } from "@/app/hooks/useIsMobile";
 
-const YT_ID = "pLJVdaj7K6A";
+const YT_ID = "Bcpu-jqAL6w";
 
 const categories = [
-  { label: "Studio",    id: "studio" },
-  { label: "Directors", id: "directors" },
-  { label: "VFX",       id: "vfx" },
-  { label: "Broadcast", id: "broadcast" },
-  { label: "Originals", id: "originals" },
+  { label: "Studio",    href: "/work?category=studio" },
+  { label: "Directors", href: "/work?category=directors" },
+  { label: "VFX",       href: "/work?category=vfx" },
+  { label: "Broadcast", href: "/work?category=broadcast" },
+  { label: "Originals", href: "/work?category=originals" },
 ];
 
 export default function Work() {
@@ -27,26 +27,35 @@ export default function Work() {
         background: "#000",
       }}
     >
-      {/* Background image */}
+      {/* ── YouTube iframe as cover background ── */}
       <div
         style={{
           position: "absolute",
-          inset: 0,
-          backgroundImage: `url(https://img.youtube.com/vi/${YT_ID}/maxresdefault.jpg)`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "brightness(0.5)",
-          transition: "filter 0.5s ease",
+          top: "50%",
+          left: "50%",
+          width: "100vw",
+          height: "56.25vw",
+          minHeight: "100%",
+          minWidth: "177.78vh",
+          transform: "translate(-50%, -50%)",
+          pointerEvents: "none",
         }}
-      />
+      >
+        <iframe
+          src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&controls=0&loop=1&playlist=${YT_ID}&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1`}
+          allow="autoplay; fullscreen"
+          allowFullScreen
+          style={{ width: "100%", height: "100%", border: "none", pointerEvents: "none" }}
+        />
+      </div>
 
-      {/* Left gradient so text is always readable */}
+      {/* Gradient — left-heavy so text reads cleanly */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 55%, transparent 100%)",
+            "linear-gradient(to right, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.35) 55%, transparent 100%)",
           pointerEvents: "none",
         }}
       />
@@ -62,18 +71,17 @@ export default function Work() {
           justifyContent: "center",
           paddingLeft: isMobile ? 22 : "clamp(40px, 8vw, 140px)",
           listStyle: "none",
-          gap: 0,
         }}
       >
         {categories.map((cat, i) => (
           <li
-            key={cat.id}
+            key={cat.href}
             onMouseEnter={() => setHovered(i)}
             onMouseLeave={() => setHovered(null)}
             style={{ lineHeight: 1, marginBottom: isMobile ? 2 : 4 }}
           >
             <a
-              href={`#work-${cat.id}`}
+              href={cat.href}
               style={{
                 display: "inline-flex",
                 alignItems: "center",
