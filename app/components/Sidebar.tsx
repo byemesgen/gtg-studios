@@ -256,7 +256,7 @@ export default function Sidebar() {
                   bold delay={0.05}
                 />
                 <NavItem label="WORK" onClick={() => scrollTo("#work")} bold delay={0.1} />
-                <SubItem label="Commercial" onClick={() => scrollTo("#work")} delay={0.13} />
+                <SubItem label="Studio"     onClick={() => scrollTo("#work")} delay={0.13} />
                 <SubItem label="Directors"  onClick={() => scrollTo("#work")} delay={0.15} />
                 <SubItem label="VFX"        onClick={() => scrollTo("#work")} delay={0.17} />
                 <SubItem label="Broadcast"  onClick={() => scrollTo("#work")} delay={0.19} />

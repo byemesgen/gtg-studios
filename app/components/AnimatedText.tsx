@@ -1,30 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-// Words of the tagline — each word is its own div, each letter its own span
-// mirrors Piranha Bar's content_animation_text structure exactly
 const WORDS = [
-  "GTG", "Studios", "is", "a", "full-service",
-  "film", "and", "video", "production", "company",
-  "that", "fuses", "emotion,", "craft", "and",
-  "ambition", "to", "make", "engaging", "content",
-  "for", "ambitious", "brands", "and", "global", "audiences.",
+  "We", "are", "a", "full-service",
+  "film", "and", "video", "production",
+  "company", "that", "fuses", "emotion,",
+  "craft", "and", "ambition", "to",
+  "make", "engaging", "content", "for",
+  "ambitious", "brands", "and", "global", "audiences.",
 ];
-
-// Cycle through accent/white like Piranha Bar cycles colors
-const CLASSES = ["", "accent", "", "", "accent", ""];
 
 export default function AnimatedText() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -38,14 +26,13 @@ export default function AnimatedText() {
           letters.forEach((el, i) => {
             setTimeout(() => {
               el.classList.add("lit");
-              // Give some letters accent colour
-              if (i % 6 === 2 || i % 6 === 5) el.classList.add("accent");
-            }, i * 28);
+              if (i % 7 === 3 || i % 7 === 6) el.classList.add("accent");
+            }, i * 22);
           });
           observer.disconnect();
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.1 }
     );
 
     observer.observe(section);
@@ -56,9 +43,8 @@ export default function AnimatedText() {
     <section
       ref={sectionRef}
       style={{
-        padding: isMobile ? "48px 24px 72px" : "80px 0 220px",
-        paddingLeft: isMobile ? 24 : 100,
-        paddingRight: isMobile ? 24 : 70,
+        background: "#ffffff",
+        padding: "80px 80px 120px 100px",
       }}
     >
       <h2
@@ -66,22 +52,16 @@ export default function AnimatedText() {
         style={{
           fontFamily: "inherit",
           fontWeight: 700,
-          fontSize: "clamp(2.8rem, 6vw, 6rem)",
-          lineHeight: 1.05,
+          fontSize: "clamp(1.9rem, 3.2vw, 3.4rem)",
+          lineHeight: 1.1,
           letterSpacing: "-0.02em",
+          maxWidth: 900,
         }}
       >
         {WORDS.map((word, wi) => (
-          <span
-            key={wi}
-            style={{ display: "inline-block", marginRight: "0.3em" }}
-          >
+          <span key={wi} style={{ display: "inline-block", marginRight: "0.28em" }}>
             {word.split("").map((char, ci) => (
-              <span
-                key={ci}
-                className="letter"
-                style={{ display: "inline-block" }}
-              >
+              <span key={ci} className="letter" style={{ display: "inline-block" }}>
                 {char}
               </span>
             ))}

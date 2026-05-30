@@ -1,10 +1,8 @@
 import Hero from "@/app/components/Hero";
 import AnimatedText from "@/app/components/AnimatedText";
 import Work from "@/app/components/Work";
-import Clients from "@/app/components/Clients";
-import Services from "@/app/components/Services";
-import About from "@/app/components/About";
-import Contact from "@/app/components/Contact";
+import Brands from "@/app/components/Brands";
+import Accolades from "@/app/components/Accolades";
 import Footer from "@/app/components/Footer";
 
 export default function Home() {
@@ -13,10 +11,8 @@ export default function Home() {
       <Hero />
       <AnimatedText />
       <Work />
-      <Clients />
-      <Services />
-      <About />
-      <Contact />
+      <Brands />
+      <Accolades />
       <Footer />
     </main>
   );

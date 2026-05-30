@@ -1,57 +1,51 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-// Work categories — mirrors Piranha Bar's content_call_actions structure
+const YT_ID = "pLJVdaj7K6A";
+
 const categories = [
-  { label: "Commercial",  bg: "#0d0d0d" },
-  { label: "Directors",   bg: "#111111" },
-  { label: "VFX",         bg: "#0f0f0f" },
-  { label: "Broadcast",   bg: "#0c0c0c" },
-  { label: "Originals",   bg: "#121212" },
+  { label: "Studio",    id: "studio" },
+  { label: "Directors", id: "directors" },
+  { label: "VFX",       id: "vfx" },
+  { label: "Broadcast", id: "broadcast" },
+  { label: "Originals", id: "originals" },
 ];
 
 export default function Work() {
   const [hovered, setHovered] = useState<number | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
 
   return (
     <section
       id="work"
       style={{
-        height: "100vh",
         position: "relative",
+        height: "100vh",
         overflow: "hidden",
+        background: "#000",
       }}
     >
-      {/* Background panels — swap on hover */}
-      {categories.map((cat, i) => (
-        <div
-          key={cat.label}
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: cat.bg,
-            opacity: hovered === i ? 1 : 0,
-            transition: "opacity 0.5s ease",
-          }}
-        />
-      ))}
-      {/* Default background */}
+      {/* Background: YouTube thumbnail, swaps tint on hover */}
       <div
         style={{
           position: "absolute",
           inset: 0,
-          background: "#0a0a0a",
-          opacity: hovered === null ? 1 : 0,
-          transition: "opacity 0.5s ease",
+          backgroundImage: `url(https://img.youtube.com/vi/${YT_ID}/maxresdefault.jpg)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "brightness(0.55)",
+          transition: "filter 0.5s ease",
+        }}
+      />
+
+      {/* Gradient — heavier on left so text is readable */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.28) 55%, transparent 100%)",
+          pointerEvents: "none",
         }}
       />
 
@@ -64,35 +58,48 @@ export default function Work() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          paddingLeft: isMobile ? 28 : 140,
+          paddingLeft: "clamp(32px, 8vw, 140px)",
           listStyle: "none",
           gap: 0,
         }}
       >
         {categories.map((cat, i) => (
           <li
-            key={cat.label}
+            key={cat.id}
             onMouseEnter={() => setHovered(i)}
             onMouseLeave={() => setHovered(null)}
-            style={{ lineHeight: 0.85, marginBottom: 8 }}
+            style={{ lineHeight: 1, marginBottom: 4 }}
           >
             <a
-              href={`#work-${cat.label.toLowerCase()}`}
+              href={`#work-${cat.id}`}
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: 24,
+                gap: 20,
                 textDecoration: "none",
-                fontSize: isMobile ? "clamp(2.2rem, 10vw, 3.5rem)" : "clamp(2.5rem, 6vw, 6rem)",
-                fontWeight: 300,
-                letterSpacing: "-0.02em",
-                color: hovered === i ? "#c8a96e" : hovered !== null ? "#1c1c1c" : "#f0ede8",
-                transition: "color 0.4s ease",
+                fontSize: "clamp(2.8rem, 7vw, 8rem)",
+                fontWeight: 700,
+                letterSpacing: "-0.03em",
+                textTransform: "uppercase",
+                color:
+                  hovered === i
+                    ? "#EB2A24"
+                    : hovered !== null
+                    ? "rgba(255,255,255,0.3)"
+                    : "#ffffff",
+                transition: "color 0.3s ease",
               }}
             >
-              <span>{cat.label}</span>
+              {cat.label}
               {hovered === i && (
-                <svg width="32" height="32" fill="none" stroke="#c8a96e" strokeWidth={0.8} viewBox="0 0 24 24">
+                <svg
+                  width="28"
+                  height="28"
+                  fill="none"
+                  stroke="#EB2A24"
+                  strokeWidth={1.5}
+                  viewBox="0 0 24 24"
+                >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               )}
