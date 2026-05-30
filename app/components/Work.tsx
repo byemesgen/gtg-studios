@@ -40,7 +40,7 @@ export default function Work() {
           height: "56.25vw",
           minHeight: "100%",
           minWidth: "177.78vh",
-          transform: "translate(-50%, -50%)",
+          transform: "translate(-50%, -50%) scale(1.12)",
           pointerEvents: "none",
         }}
       >

@@ -40,13 +40,13 @@ export default function Hero() {
             position: "absolute",
             top: "50%",
             left: "50%",
-            /* 16:9 — whichever dimension is smaller gets letterboxed,
-               so we make both at least 100% of their axis */
+            /* Cover trick: iframe sized to fill both axes.
+               scale(1.12) crops YouTube's own letterbox padding on every edge. */
             width: "100vw",
             height: "56.25vw",    /* 16/9 of viewport width */
             minHeight: "100vh",
             minWidth: "177.78vh", /* 16/9 of viewport height */
-            transform: "translate(-50%, -50%)",
+            transform: "translate(-50%, -50%) scale(1.12)",
             pointerEvents: "none",
           }}
         >
