@@ -3,81 +3,17 @@
 import { motion } from "framer-motion";
 import { useIsMobile } from "@/app/hooks/useIsMobile";
 
-const awards = [
-  { name: "IFTA",    sub: "Best Commercial" },
-  { name: "Cannes",  sub: "Lions Finalist" },
-  { name: "D&AD",    sub: "Wood Pencil" },
-  { name: "Kinsale", sub: "Gold Shark" },
-  { name: "BAFTA",   sub: "Craft Award" },
-  { name: "Clio",    sub: "Bronze" },
-  { name: "Emmy",    sub: "Nominated" },
-  { name: "ADFX",    sub: "Effectiveness" },
-];
-
-function Medallion({ name, sub, size, delay }: { name: string; sub: string; size: number; delay: number }) {
-  const r1 = size * 0.46;
-  const r2 = size * 0.36;
-  const cx = size / 2;
-  const dotAngles = [0, 45, 90, 135, 180, 225, 270, 315];
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.45, delay }}
-    >
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none">
-        <circle cx={cx} cy={cx} r={r1} stroke="rgba(0,0,0,0.3)" strokeWidth="1.2" />
-        <circle cx={cx} cy={cx} r={r2} stroke="rgba(0,0,0,0.18)" strokeWidth="0.7" />
-        {dotAngles.map((angle) => {
-          const rad = (angle * Math.PI) / 180;
-          return (
-            <circle
-              key={angle}
-              cx={cx + (r1 + 2) * Math.cos(rad)}
-              cy={cx + (r1 + 2) * Math.sin(rad)}
-              r="1.2"
-              fill="rgba(0,0,0,0.25)"
-            />
-          );
-        })}
-        <text
-          x={cx} y={cx - 3}
-          textAnchor="middle"
-          fontSize={size * 0.13}
-          fontWeight="700"
-          letterSpacing="0.06em"
-          fill="rgba(0,0,0,0.7)"
-          fontFamily="inherit"
-        >
-          {name}
-        </text>
-        <text
-          x={cx} y={cx + size * 0.13}
-          textAnchor="middle"
-          fontSize={size * 0.09}
-          fill="rgba(0,0,0,0.4)"
-          fontFamily="inherit"
-          letterSpacing="0.04em"
-        >
-          {sub}
-        </text>
-      </svg>
-    </motion.div>
-  );
-}
+// 8 award badge SVGs in reference order
+const ACCOLADE_COUNT = 8;
 
 export default function Accolades() {
   const isMobile = useIsMobile();
-  const size = isMobile ? 70 : 88;
+  const size = isMobile ? 72 : 90;
 
   return (
     <section
       style={{
-        padding: isMobile
-          ? "40px 22px 56px"
-          : "56px 40px 72px 100px",
+        padding: isMobile ? "40px 22px 56px" : "56px 40px 72px 100px",
       }}
     >
       <motion.h3
@@ -86,9 +22,7 @@ export default function Accolades() {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
         style={{
-          fontSize: isMobile
-            ? "clamp(1.3rem, 5vw, 1.7rem)"
-            : "clamp(1.4rem, 2.2vw, 2.2rem)",
+          fontSize: isMobile ? "clamp(1.3rem, 5vw, 1.7rem)" : "clamp(1.4rem, 2.2vw, 2.2rem)",
           fontWeight: 700,
           letterSpacing: "-0.02em",
           color: "#000",
@@ -102,11 +36,38 @@ export default function Accolades() {
         style={{
           display: "flex",
           flexWrap: "wrap",
-          gap: isMobile ? 16 : 24,
+          gap: isMobile ? 14 : 20,
         }}
       >
-        {awards.map((a, i) => (
-          <Medallion key={a.name} name={a.name} sub={a.sub} size={size} delay={i * 0.07} />
+        {Array.from({ length: ACCOLADE_COUNT }, (_, i) => i + 1).map((n) => (
+          <motion.div
+            key={n}
+            initial={{ opacity: 0, scale: 0.85 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: (n - 1) * 0.07 }}
+            style={{
+              width: size,
+              height: size,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src={`/logos/accolades/accolade-${String(n).padStart(2, "0")}.svg`}
+              alt={`Award ${n}`}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                opacity: 0.75,
+                transition: "opacity 0.3s",
+              }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLImageElement).style.opacity = "1")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLImageElement).style.opacity = "0.75")}
+            />
+          </motion.div>
         ))}
       </div>
     </section>
