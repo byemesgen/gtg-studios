@@ -26,6 +26,9 @@ export default function Hero() {
           overflow: "hidden",
           background: "#040404",
           cursor: "pointer",
+          // Break out of the 65px sidebar page-offset on desktop
+          marginLeft: isMobile ? 0 : -65,
+          width: "100vw",
         }}
         onClick={() => setShowreel(true)}
       >

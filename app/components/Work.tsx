@@ -25,6 +25,9 @@ export default function Work() {
         height: isMobile ? "clamp(300px, 58vh, 500px)" : "100vh",
         overflow: "hidden",
         background: "#000",
+        // Break out of the 65px sidebar page-offset on desktop
+        marginLeft: isMobile ? 0 : -65,
+        width: "100vw",
       }}
     >
       {/* ── YouTube iframe as cover background ── */}
@@ -69,7 +72,7 @@ export default function Work() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          paddingLeft: isMobile ? 22 : "clamp(40px, 8vw, 140px)",
+          paddingLeft: isMobile ? 22 : "clamp(105px, calc(8vw + 65px), 205px)",
           listStyle: "none",
         }}
       >
