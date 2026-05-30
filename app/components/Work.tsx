@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Work categories — mirrors Piranha Bar's content_call_actions structure
 const categories = [
@@ -13,6 +13,14 @@ const categories = [
 
 export default function Work() {
   const [hovered, setHovered] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   return (
     <section
@@ -56,7 +64,7 @@ export default function Work() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          paddingLeft: 140,
+          paddingLeft: isMobile ? 28 : 140,
           listStyle: "none",
           gap: 0,
         }}
@@ -75,7 +83,7 @@ export default function Work() {
                 alignItems: "center",
                 gap: 24,
                 textDecoration: "none",
-                fontSize: "clamp(2.5rem, 6vw, 6rem)",
+                fontSize: isMobile ? "clamp(2.2rem, 10vw, 3.5rem)" : "clamp(2.5rem, 6vw, 6rem)",
                 fontWeight: 300,
                 letterSpacing: "-0.02em",
                 color: hovered === i ? "#c8a96e" : hovered !== null ? "#1c1c1c" : "#f0ede8",

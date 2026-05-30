@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Words of the tagline — each word is its own div, each letter its own span
 // mirrors Piranha Bar's content_animation_text structure exactly
@@ -17,6 +17,14 @@ const CLASSES = ["", "accent", "", "", "accent", ""];
 
 export default function AnimatedText() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -48,9 +56,9 @@ export default function AnimatedText() {
     <section
       ref={sectionRef}
       style={{
-        padding: "80px 0 220px",
-        paddingLeft: 100,
-        paddingRight: 70,
+        padding: isMobile ? "48px 24px 72px" : "80px 0 220px",
+        paddingLeft: isMobile ? 24 : 100,
+        paddingRight: isMobile ? 24 : 70,
       }}
     >
       <h2

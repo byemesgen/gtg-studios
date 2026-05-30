@@ -1,12 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const YT_ID = "pLJVdaj7K6A";
 
 export default function Hero() {
   const [showreel, setShowreel] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   return (
     <>
@@ -116,7 +124,7 @@ export default function Hero() {
             bottom: 0,
             left: 0,
             right: 0,
-            padding: "0 30px 0 40px",
+            padding: isMobile ? "0 16px 0 16px" : "0 30px 0 40px",
             display: "flex",
             alignItems: "flex-end",
             justifyContent: "space-between",
@@ -136,16 +144,6 @@ export default function Hero() {
             }}
           >
             GTG Studios
-            <span
-              style={{
-                color: "#c8a96e",
-                fontSize: "0.5em",
-                verticalAlign: "super",
-                fontStyle: "normal",
-              }}
-            >
-              ®
-            </span>
           </h1>
 
           {/* Circle compass mark — mirrors Piranha Bar logo mark */}

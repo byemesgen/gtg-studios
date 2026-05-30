@@ -1,43 +1,85 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
 const clients = [
-  "Netflix", "BBC", "Nike", "Guinness",
-  "Google", "Audi", "Red Bull", "Diageo",
-  "Virgin Media", "Tourism Ireland", "AIB", "Three",
+  "Netflix", "HBO", "Nike", "Adidas",
+  "Google", "Apple", "Red Bull", "Diageo",
+  "Warner Bros", "Disney", "Amazon", "Hulu",
+  "Universal", "Sony", "ESPN", "NBC",
+  "ABC", "Paramount",
 ];
 
 export default function Clients() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   return (
-    <section className="py-28 px-6 md:px-14 border-t border-[#161616]">
+    <section
+      style={{
+        padding: isMobile ? "48px 24px 60px" : "80px 40px 80px 100px",
+        borderTop: "1px solid #161616",
+        background: "#080808",
+      }}
+    >
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="text-[#3a3a3a] text-[10px] tracking-[0.35em] uppercase mb-16"
+        style={{
+          color: "#3a3a3a",
+          fontSize: 10,
+          letterSpacing: "0.35em",
+          textTransform: "uppercase",
+          marginBottom: isMobile ? 32 : 48,
+        }}
       >
         Clients &amp; Collaborators
       </motion.p>
 
       <motion.div
         ref={ref}
-        className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6"
+        style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "repeat(3, 1fr)" : "repeat(6, 1fr)",
+        }}
       >
         {clients.map((name, i) => (
           <motion.div
             key={name}
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5, delay: i * 0.06 }}
-            className="border border-[#111] flex items-center justify-center py-8 px-4 group hover:border-[#1e1e1e] transition-colors duration-400"
+            transition={{ duration: 0.5, delay: i * 0.05 }}
+            style={{
+              border: "1px solid #111",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: isMobile ? "20px 8px" : "32px 16px",
+            }}
           >
-            <span className="text-[#2e2e2e] text-xs tracking-[0.2em] uppercase group-hover:text-[#555] transition-colors duration-400 text-center">
+            <span
+              style={{
+                color: "#2e2e2e",
+                fontSize: isMobile ? 9 : 10,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                textAlign: "center",
+                transition: "color 0.3s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#888")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#2e2e2e")}
+            >
               {name}
             </span>
           </motion.div>

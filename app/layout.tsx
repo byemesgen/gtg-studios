@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
       <body>
         <Sidebar />
-        <div style={{ marginLeft: "65px" }}>{children}</div>
+        <div className="page-offset">{children}</div>
       </body>
     </html>
   );

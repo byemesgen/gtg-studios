@@ -93,7 +93,7 @@ export default function About() {
             From first call to final delivery, we're your creative partners.
           </p>
           <p className="text-[#6b6b6b] text-base leading-relaxed mt-4">
-            Based in Dublin, working worldwide.
+            Based in Los Angeles, working worldwide.
           </p>
         </div>
       </motion.div>

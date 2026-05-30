@@ -154,10 +154,10 @@ export default function Contact() {
             <div>
               <p className="text-[#6b6b6b] text-xs tracking-[0.2em] uppercase mb-3">Phone</p>
               <a
-                href="tel:+35312345678"
+                href="tel:+13105551212"
                 className="text-[#f0ede8] text-sm hover:text-[#c8a96e] transition-colors duration-300"
               >
-                +353 1 234 5678
+                +1 (310) 555-1212
               </a>
             </div>
 
@@ -165,9 +165,7 @@ export default function Contact() {
               <p className="text-[#6b6b6b] text-xs tracking-[0.2em] uppercase mb-3">Studio</p>
               <address className="text-[#f0ede8] text-sm not-italic leading-relaxed">
                 GTG Studios<br />
-                1 Grand Canal Square<br />
-                Dublin 2, D02 A342<br />
-                Ireland
+                Los Angeles, CA
               </address>
             </div>
 
