@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/app/components/Sidebar";
+import LoadingScreen from "@/app/components/LoadingScreen";
+import { TransitionProvider } from "@/app/contexts/TransitionContext";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -21,8 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body>
-        <Sidebar />
-        <div className="page-offset">{children}</div>
+        <TransitionProvider>
+          <LoadingScreen />
+          <Sidebar />
+          <div className="page-offset">{children}</div>
+        </TransitionProvider>
       </body>
     </html>
   );

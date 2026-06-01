@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import { usePageTransition } from "@/app/contexts/TransitionContext";
 
 const RED = "#EB2A24";
 const RED_BORDER = "#c42220";
@@ -10,7 +10,7 @@ const RED_BORDER = "#c42220";
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const router = useRouter();
+  const { navigate } = usePageTransition();
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -34,9 +34,9 @@ export default function Sidebar() {
     }, 500);
   };
 
-  const navigate = (path: string) => {
+  const go = (path: string) => {
     setOpen(false);
-    router.push(path);
+    navigate(path);
   };
 
   return (
@@ -257,17 +257,14 @@ export default function Sidebar() {
                   gap: 0,
                 }}
               >
-                <NavItem
-                  label="HOME"
-                  onClick={() => { setOpen(false); router.push("/"); }}
-                  bold delay={0.05}
-                />
-                <NavItem label="WORK" onClick={() => navigate("/work")} bold delay={0.1} />
-                <SubItem label="Studio"     onClick={() => navigate("/work?category=studio")}    delay={0.13} />
-                <SubItem label="Directors"  onClick={() => navigate("/work?category=directors")} delay={0.15} />
-                <SubItem label="VFX"        onClick={() => navigate("/work?category=vfx")}       delay={0.17} />
-                <SubItem label="Broadcast"  onClick={() => navigate("/work?category=broadcast")} delay={0.19} />
-                <SubItem label="Originals"  onClick={() => navigate("/work?category=originals")} delay={0.21} />
+                <NavItem label="HOME"      onClick={() => go("/")}                        bold delay={0.05} />
+                <NavItem label="WORK"      onClick={() => go("/work")}                   bold delay={0.1} />
+                <SubItem label="Studio"    onClick={() => go("/work?category=studio")}        delay={0.13} />
+                <SubItem label="Directors" onClick={() => go("/work/directors")}              delay={0.15} />
+                <SubItem label="VFX"       onClick={() => go("/work?category=vfx")}           delay={0.17} />
+                <SubItem label="Broadcast" onClick={() => go("/work?category=broadcast")}     delay={0.19} />
+                <SubItem label="Originals" onClick={() => go("/work?category=originals")}     delay={0.21} />
+                <NavItem label="ABOUT"     onClick={() => go("/about")}                  bold delay={0.26} />
               </ul>
 
               {/* Contact info — bottom of panel */}
