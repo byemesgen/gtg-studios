@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/app/hooks/useIsMobile";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import { usePageTransition } from "@/app/contexts/TransitionContext";
 
 // ─── Portfolio data ───────────────────────────────────────────────────────────
 const ITEMS = [
@@ -183,6 +184,7 @@ function WorkPageInner() {
   const isMobile = useIsMobile();
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category") ?? "all";
+  const { navigate } = usePageTransition();
 
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [activeTag, setActiveTag] = useState<string | null>(null);
@@ -222,7 +224,11 @@ function WorkPageInner() {
           {CATEGORIES.filter((c) => c.key !== "all").map((cat) => (
             <button
               key={cat.key}
-              onClick={() => setActiveCategory(cat.key === activeCategory ? "all" : cat.key)}
+              onClick={() =>
+                cat.key === "directors"
+                  ? navigate("/work/directors")
+                  : setActiveCategory(cat.key === activeCategory ? "all" : cat.key)
+              }
               style={{
                 background:
                   activeCategory === cat.key
@@ -287,7 +293,11 @@ function WorkPageInner() {
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.key}
-                onClick={() => setActiveCategory(cat.key)}
+                onClick={() =>
+                  cat.key === "directors"
+                    ? navigate("/work/directors")
+                    : setActiveCategory(cat.key)
+                }
                 style={{
                   flexShrink: 0,
                   background:
