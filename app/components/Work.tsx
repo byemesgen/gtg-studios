@@ -55,8 +55,21 @@ export default function Work() {
         />
       </div>
 
-      {/* Blocks mouse events from reaching the iframe — keeps YouTube controls hidden */}
-      <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "transparent" }} />
+      {/* Color-matched blanket that hides YouTube's load-state controls.
+          Fades out after 1.5 s (users scroll to this section so the video
+          gets extra load time before they arrive). */}
+      <motion.div
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 0 }}
+        transition={{ duration: 0.9, delay: 1.5 }}
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "#000",
+          zIndex: 3,
+          pointerEvents: "none",
+        }}
+      />
 
       {/* Gradient overlay */}
       <div

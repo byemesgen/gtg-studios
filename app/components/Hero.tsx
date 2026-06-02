@@ -61,14 +61,20 @@ export default function Hero() {
           />
         </div>
 
-        {/* Blocks all mouse events from reaching the iframe so YouTube
-            never enters its hover/interaction state and shows controls */}
-        <div
+        {/* Color-matched blanket that hides YouTube's load-state controls.
+            Fades out after 1.8 s — by then autoplay has started and the
+            YouTube player UI has dismissed itself. Matches #040404 exactly
+            so the transition is invisible against the section background. */}
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 0 }}
+          transition={{ duration: 0.9, delay: 1.8 }}
           style={{
             position: "absolute",
             inset: 0,
-            zIndex: 1,
-            background: "transparent",
+            background: "#040404",
+            zIndex: 3,
+            pointerEvents: "none",
           }}
         />
 
