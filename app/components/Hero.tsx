@@ -38,28 +38,39 @@ export default function Hero() {
             position: "absolute",
             top: "50%",
             left: "50%",
-            /* Cover trick: iframe sized to fill both axes.
-               scale(1.12) crops YouTube's own letterbox padding on every edge. */
             width: "100vw",
-            height: "56.25vw",    /* 16/9 of viewport width */
+            height: "56.25vw",
             minHeight: "100vh",
-            minWidth: "177.78vh", /* 16/9 of viewport height */
+            minWidth: "177.78vh",
             transform: "translate(-50%, -50%) scale(1.12)",
             pointerEvents: "none",
           }}
         >
           <iframe
-            src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&controls=0&loop=1&playlist=${YT_ID}&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&enablejsapi=1`}
+            src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&controls=0&disablekb=1&loop=1&playlist=${YT_ID}&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&fs=0`}
             allow="autoplay; fullscreen"
             allowFullScreen
+            tabIndex={-1}
             style={{
               width: "100%",
               height: "100%",
               border: "none",
               pointerEvents: "none",
+              display: "block",
             }}
           />
         </div>
+
+        {/* Blocks all mouse events from reaching the iframe so YouTube
+            never enters its hover/interaction state and shows controls */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 1,
+            background: "transparent",
+          }}
+        />
 
         {/* Dark gradient overlay so text is readable */}
         <div

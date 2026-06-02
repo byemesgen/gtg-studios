@@ -47,12 +47,16 @@ export default function Work() {
         }}
       >
         <iframe
-          src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&controls=0&loop=1&playlist=${YT_ID}&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1`}
+          src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&controls=0&disablekb=1&loop=1&playlist=${YT_ID}&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&fs=0`}
           allow="autoplay; fullscreen"
           allowFullScreen
-          style={{ width: "100%", height: "100%", border: "none", pointerEvents: "none" }}
+          tabIndex={-1}
+          style={{ width: "100%", height: "100%", border: "none", pointerEvents: "none", display: "block" }}
         />
       </div>
+
+      {/* Blocks mouse events from reaching the iframe — keeps YouTube controls hidden */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "transparent" }} />
 
       {/* Gradient overlay */}
       <div
