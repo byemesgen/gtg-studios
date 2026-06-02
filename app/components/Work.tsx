@@ -75,14 +75,15 @@ export default function Work() {
         />
       </div>
 
-      {/* Solid cover — hides YouTube controls until postMessage confirms playing */}
+      {/* Blur overlay — video visible immediately, controls smeared away */}
       <motion.div
         animate={{ opacity: videoPlaying ? 0 : 1 }}
-        transition={{ duration: 0.7 }}
+        transition={{ duration: 0.5 }}
         style={{
           position: "absolute",
           inset: 0,
-          background: "#000",
+          backdropFilter: "blur(22px)",
+          WebkitBackdropFilter: "blur(22px)",
           zIndex: 3,
           pointerEvents: "none",
         }}

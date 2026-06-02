@@ -84,17 +84,17 @@ export default function Hero() {
           />
         </div>
 
-        {/* Solid cover that hides YouTube's load-state controls.
-            Fades out the moment YouTube's postMessage confirms playerState=1.
-            Colour matches the section bg (#040404) so it's invisible at rest.
-            Falls back to revealing after 6 s if postMessage never fires. */}
+        {/* Blur overlay — video shows through immediately so there's no black
+            screen, but the YouTube control icons are smeared away by the blur.
+            Fades out once postMessage confirms playerState=1. */}
         <motion.div
           animate={{ opacity: videoPlaying ? 0 : 1 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.5 }}
           style={{
             position: "absolute",
             inset: 0,
-            background: "#040404",
+            backdropFilter: "blur(22px)",
+            WebkitBackdropFilter: "blur(22px)",
             zIndex: 3,
             pointerEvents: "none",
           }}
