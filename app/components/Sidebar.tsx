@@ -70,37 +70,35 @@ export default function Sidebar() {
               }),
         }}
       >
-        {/* Studio name — bold italic on mobile, vertical small-caps on desktop */}
+        {/* Logo mark */}
         <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          onClick={() => go("/")}
+          aria-label="GTG Studios — home"
           style={{
             background: "none",
             border: "none",
             cursor: "pointer",
-            fontFamily: "inherit",
-            color: "#ffffff",
+            padding: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
             ...(isMobile
-              ? {
-                  fontWeight: 700,
-                  fontStyle: "italic",
-                  fontSize: 16,
-                  letterSpacing: "-0.01em",
-                  order: 1,
-                }
-              : {
-                  writingMode: "vertical-rl",
-                  transform: "rotate(180deg)",
-                  fontSize: 10,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  fontStyle: "italic",
-                  fontWeight: 600,
-                  color: "#f0ede8",
-                  order: 2,
-                }),
+              ? { order: 1, height: 32, width: "auto" }
+              : { order: 2, width: 32, height: 32 }),
           }}
         >
-          GTG Studios
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo.svg"
+            alt="GTG Studios"
+            style={{
+              width: isMobile ? 28 : 30,
+              height: isMobile ? 28 : 30,
+              objectFit: "contain",
+              display: "block",
+            }}
+          />
         </button>
 
         {/* Burger icon */}
