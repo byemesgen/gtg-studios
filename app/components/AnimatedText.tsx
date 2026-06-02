@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useIsMobile } from "@/app/hooks/useIsMobile";
+import { useBreakpoint } from "@/app/hooks/useBreakpoint";
 
 const WORDS = [
   "We", "are", "a", "full-service",
@@ -14,12 +14,13 @@ const WORDS = [
 
 export default function AnimatedText() {
   const sectionRef = useRef<HTMLElement>(null);
-  const isMobile = useIsMobile();
+  const { isMobile, isTablet } = useBreakpoint();
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
     const letters = section.querySelectorAll<HTMLSpanElement>(".letter");
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -27,7 +28,7 @@ export default function AnimatedText() {
             setTimeout(() => {
               el.classList.add("lit");
               if (i % 7 === 3 || i % 7 === 6) el.classList.add("accent");
-            }, i * 22);
+            }, i * 18);
           });
           observer.disconnect();
         }
@@ -38,32 +39,42 @@ export default function AnimatedText() {
     return () => observer.disconnect();
   }, []);
 
+  const padding = isMobile
+    ? "72px 22px 88px"
+    : isTablet
+    ? "96px 60px 120px 100px"
+    : "120px 80px 160px 100px";
+
+  const fontSize = isMobile
+    ? "clamp(1.55rem, 5.8vw, 2rem)"
+    : isTablet
+    ? "clamp(1.8rem, 3vw, 2.6rem)"
+    : "clamp(2rem, 3.2vw, 3.4rem)";
+
   return (
-    <section
-      ref={sectionRef}
-      style={{
-        padding: isMobile
-          ? "44px 22px 56px"
-          : "80px 80px 120px 100px",
-      }}
-    >
+    <section ref={sectionRef} style={{ padding }}>
       <h2
         aria-label={WORDS.join(" ")}
         style={{
           fontFamily: "inherit",
           fontWeight: 700,
-          fontSize: isMobile
-            ? "clamp(1.6rem, 6vw, 2rem)"
-            : "clamp(1.9rem, 3.2vw, 3.4rem)",
+          fontSize,
           lineHeight: 1.15,
           letterSpacing: "-0.02em",
-          maxWidth: 900,
+          maxWidth: 960,
         }}
       >
         {WORDS.map((word, wi) => (
-          <span key={wi} style={{ display: "inline-block", marginRight: "0.28em" }}>
+          <span
+            key={wi}
+            style={{ display: "inline-block", marginRight: "0.28em" }}
+          >
             {word.split("").map((char, ci) => (
-              <span key={ci} className="letter" style={{ display: "inline-block" }}>
+              <span
+                key={ci}
+                className="letter"
+                style={{ display: "inline-block" }}
+              >
                 {char}
               </span>
             ))}

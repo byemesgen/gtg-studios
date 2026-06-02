@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/app/hooks/useIsMobile";
+import { usePageTransition } from "@/app/contexts/TransitionContext";
 
 const YT_ID = "Bcpu-jqAL6w";
 
 const categories = [
   { label: "Studio",    href: "/work?category=studio" },
-  { label: "Directors", href: "/work?category=directors" },
+  { label: "Directors", href: "/work/directors" },
   { label: "VFX",       href: "/work?category=vfx" },
   { label: "Broadcast", href: "/work?category=broadcast" },
   { label: "Originals", href: "/work?category=originals" },
@@ -16,6 +18,7 @@ const categories = [
 export default function Work() {
   const [hovered, setHovered] = useState<number | null>(null);
   const isMobile = useIsMobile();
+  const { navigate } = usePageTransition();
 
   return (
     <section
@@ -25,12 +28,11 @@ export default function Work() {
         height: isMobile ? "clamp(300px, 58vh, 500px)" : "100vh",
         overflow: "hidden",
         background: "#000",
-        // Break out of the 65px sidebar page-offset on desktop
         marginLeft: isMobile ? 0 : -65,
         width: "100vw",
       }}
     >
-      {/* ── YouTube iframe as cover background ── */}
+      {/* ── YouTube iframe cover background ── */}
       <div
         style={{
           position: "absolute",
@@ -52,13 +54,13 @@ export default function Work() {
         />
       </div>
 
-      {/* Gradient — left-heavy so text reads cleanly */}
+      {/* Gradient overlay */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to right, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.35) 55%, transparent 100%)",
+            "linear-gradient(to right, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.38) 55%, transparent 100%)",
           pointerEvents: "none",
         }}
       />
@@ -81,37 +83,85 @@ export default function Work() {
             key={cat.href}
             onMouseEnter={() => setHovered(i)}
             onMouseLeave={() => setHovered(null)}
-            style={{ lineHeight: 1, marginBottom: isMobile ? 2 : 4 }}
+            style={{ lineHeight: 1, marginBottom: isMobile ? 4 : 6 }}
           >
-            <a
-              href={cat.href}
+            <button
+              onClick={() => navigate(cat.href)}
               style={{
+                background: "none",
+                border: "none",
+                padding: 0,
+                cursor: "pointer",
+                fontFamily: "inherit",
                 display: "inline-flex",
                 alignItems: "center",
-                gap: 16,
-                textDecoration: "none",
-                fontSize: isMobile
-                  ? "clamp(2rem, 9vw, 3rem)"
-                  : "clamp(2.8rem, 7vw, 8rem)",
-                fontWeight: 700,
-                letterSpacing: "-0.03em",
-                textTransform: "uppercase",
-                color:
-                  hovered === i
-                    ? "#EB2A24"
-                    : hovered !== null
-                    ? "rgba(255,255,255,0.3)"
-                    : "#ffffff",
-                transition: "color 0.3s ease",
+                gap: 18,
+                position: "relative",
               }}
             >
-              {cat.label}
-              {hovered === i && !isMobile && (
-                <svg width="24" height="24" fill="none" stroke="#EB2A24" strokeWidth={1.5} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              )}
-            </a>
+              {/* Label with underline-wipe */}
+              <span
+                style={{
+                  position: "relative",
+                  fontSize: isMobile
+                    ? "clamp(2rem, 9vw, 3rem)"
+                    : "clamp(2.8rem, 7vw, 8rem)",
+                  fontWeight: 700,
+                  letterSpacing: "-0.03em",
+                  textTransform: "uppercase",
+                  color:
+                    hovered === i
+                      ? "#EB2A24"
+                      : hovered !== null
+                      ? "rgba(255,255,255,0.25)"
+                      : "#ffffff",
+                  transition: "color 0.35s cubic-bezier(0.22,1,0.36,1)",
+                  display: "inline-block",
+                  paddingBottom: isMobile ? 4 : 6,
+                }}
+              >
+                {cat.label}
+
+                {/* Underline wipe */}
+                {!isMobile && (
+                  <motion.span
+                    animate={{ scaleX: hovered === i ? 1 : 0 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: 2,
+                      background: "#EB2A24",
+                      transformOrigin: "left",
+                      display: "block",
+                    }}
+                  />
+                )}
+              </span>
+
+              {/* Arrow — slides in from left */}
+              <AnimatePresence>
+                {hovered === i && !isMobile && (
+                  <motion.svg
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 8 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    width="28"
+                    height="28"
+                    fill="none"
+                    stroke="#EB2A24"
+                    strokeWidth={1.5}
+                    viewBox="0 0 24 24"
+                    style={{ flexShrink: 0 }}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </motion.svg>
+                )}
+              </AnimatePresence>
+            </button>
           </li>
         ))}
       </ul>

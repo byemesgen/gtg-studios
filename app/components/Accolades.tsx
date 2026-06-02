@@ -1,51 +1,70 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useIsMobile } from "@/app/hooks/useIsMobile";
+import { useBreakpoint } from "@/app/hooks/useBreakpoint";
 
-// 8 award badge SVGs in reference order
 const ACCOLADE_COUNT = 8;
 
 export default function Accolades() {
-  const isMobile = useIsMobile();
-  const size = isMobile ? 72 : 90;
+  const { isMobile, isTablet } = useBreakpoint();
+  const size = isMobile ? 72 : isTablet ? 82 : 96;
 
   return (
     <section
       style={{
-        padding: isMobile ? "40px 22px 56px" : "56px 40px 72px 100px",
+        padding: isMobile
+          ? "64px 22px 80px"
+          : isTablet
+          ? "80px 40px 96px 100px"
+          : "100px 40px 120px 100px",
       }}
     >
       <motion.h3
-        initial={{ opacity: 0, y: 12 }}
+        initial={{ opacity: 0, y: 14 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         style={{
-          fontSize: isMobile ? "clamp(1.3rem, 5vw, 1.7rem)" : "clamp(1.4rem, 2.2vw, 2.2rem)",
+          fontSize: isMobile
+            ? "clamp(1.3rem, 5vw, 1.7rem)"
+            : isTablet
+            ? "clamp(1.4rem, 2vw, 2rem)"
+            : "clamp(1.4rem, 2.2vw, 2.2rem)",
           fontWeight: 700,
           letterSpacing: "-0.02em",
           color: "#000",
-          marginBottom: isMobile ? 28 : 36,
+          marginBottom: isMobile ? 32 : isTablet ? 40 : 48,
         }}
       >
         Accolades
       </motion.h3>
 
-      <div
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-30px" }}
+        variants={{
+          hidden: {},
+          show: { transition: { staggerChildren: 0.08 } },
+        }}
         style={{
           display: "flex",
           flexWrap: "wrap",
-          gap: isMobile ? 14 : 20,
+          gap: isMobile ? 16 : isTablet ? 20 : 24,
         }}
       >
         {Array.from({ length: ACCOLADE_COUNT }, (_, i) => i + 1).map((n) => (
           <motion.div
             key={n}
-            initial={{ opacity: 0, scale: 0.85 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: (n - 1) * 0.07 }}
+            variants={{
+              hidden: { opacity: 0, scale: 0.82, y: 12 },
+              show: {
+                opacity: 1,
+                scale: 1,
+                y: 0,
+                transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+              },
+            }}
             style={{
               width: size,
               height: size,
@@ -61,15 +80,25 @@ export default function Accolades() {
                 width: "100%",
                 height: "100%",
                 objectFit: "contain",
-                opacity: 0.75,
-                transition: "opacity 0.3s",
+                opacity: 0.72,
+                transition:
+                  "opacity 0.3s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1), filter 0.35s ease",
+                cursor: "default",
               }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLImageElement).style.opacity = "1")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLImageElement).style.opacity = "0.75")}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLImageElement;
+                el.style.opacity = "1";
+                el.style.transform = "scale(1.1) translateY(-3px)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLImageElement;
+                el.style.opacity = "0.72";
+                el.style.transform = "scale(1) translateY(0)";
+              }}
             />
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 }

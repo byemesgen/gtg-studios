@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useIsMobile } from "@/app/hooks/useIsMobile";
+import { useBreakpoint } from "@/app/hooks/useBreakpoint";
 import Footer from "@/app/components/Footer";
 
 const TEAM = [
@@ -53,7 +53,7 @@ const fade = {
 };
 
 export default function AboutPage() {
-  const isMobile = useIsMobile();
+  const { isMobile, isTablet } = useBreakpoint();
 
   return (
     <main style={{ minHeight: "100vh", background: "#f0ede8", color: "#000" }}>
@@ -150,6 +150,8 @@ export default function AboutPage() {
             display: "grid",
             gridTemplateColumns: isMobile
               ? "repeat(2, 1fr)"
+              : isTablet
+              ? "repeat(2, 1fr)"
               : "repeat(3, 1fr)",
             gap: isMobile ? 12 : 16,
           }}
@@ -180,6 +182,7 @@ function TeamCard({
       variants={fade}
       initial="hidden"
       whileInView="show"
+      whileHover={{ scale: 1.025, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }}
       viewport={{ once: true, margin: "-30px" }}
       style={{
         position: "relative",
@@ -187,6 +190,7 @@ function TeamCard({
         borderRadius: 10,
         overflow: "hidden",
         background: "#c0392b",
+        cursor: "default",
       }}
     >
       {/* Photo with red duotone overlay */}

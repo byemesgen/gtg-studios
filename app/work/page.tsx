@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useIsMobile } from "@/app/hooks/useIsMobile";
+import { useBreakpoint } from "@/app/hooks/useBreakpoint";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { usePageTransition } from "@/app/contexts/TransitionContext";
@@ -48,10 +48,10 @@ function PortfolioCard({ item, isMobile }: { item: typeof ITEMS[0]; isMobile: bo
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{ cursor: "pointer" }}
@@ -59,23 +59,23 @@ function PortfolioCard({ item, isMobile }: { item: typeof ITEMS[0]; isMobile: bo
       <div
         style={{
           position: "relative",
-          borderRadius: 14,
+          borderRadius: 12,
           overflow: "hidden",
           aspectRatio: "16/9",
           background: "#111",
         }}
       >
         {/* Thumbnail */}
-        <img
+        <motion.img
           src={imgSrc(item.id)}
           alt={item.title}
+          animate={{ scale: hovered ? 1.05 : 1 }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
           style={{
             width: "100%",
             height: "100%",
             objectFit: "cover",
             display: "block",
-            transition: "transform 0.6s ease",
-            transform: hovered ? "scale(1.04)" : "scale(1)",
           }}
         />
 
@@ -86,56 +86,73 @@ function PortfolioCard({ item, isMobile }: { item: typeof ITEMS[0]; isMobile: bo
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
               style={{
                 position: "absolute",
                 inset: 0,
                 background:
-                  "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)",
+                  "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.35) 55%, transparent 100%)",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "flex-end",
-                padding: "24px",
+                padding: "20px 22px",
               }}
             >
               {/* Tags */}
-              <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, delay: 0.08 }}
+                style={{ display: "flex", gap: 6, marginBottom: 10, flexWrap: "wrap" }}
+              >
                 {item.tags.map((tag) => (
                   <span
                     key={tag}
                     style={{
-                      background: "rgba(255,255,255,0.18)",
-                      backdropFilter: "blur(4px)",
+                      background: "rgba(255,255,255,0.15)",
+                      backdropFilter: "blur(6px)",
+                      WebkitBackdropFilter: "blur(6px)",
                       color: "#fff",
-                      padding: "4px 12px",
+                      padding: "3px 10px",
                       borderRadius: 100,
-                      fontSize: 10,
+                      fontSize: 9,
                       letterSpacing: "0.12em",
                       textTransform: "uppercase",
                       fontWeight: 600,
+                      border: "1px solid rgba(255,255,255,0.12)",
                     }}
                   >
                     {tag}
                   </span>
                 ))}
-              </div>
+              </motion.div>
+
               {/* Title */}
-              <h3
+              <motion.h3
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, delay: 0.12 }}
                 style={{
                   color: "#fff",
-                  fontSize: "clamp(1.1rem, 2vw, 1.6rem)",
+                  fontSize: "clamp(1rem, 1.8vw, 1.5rem)",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
                   lineHeight: 1.1,
-                  marginBottom: 6,
+                  marginBottom: 5,
                 }}
               >
                 {item.title}
-              </h3>
-              {/* Subtitle / client */}
-              <p style={{ color: "rgba(255,255,255,0.65)", fontSize: 14, fontWeight: 400 }}>
+              </motion.h3>
+
+              {/* Client */}
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2, delay: 0.16 }}
+                style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, fontWeight: 400 }}
+              >
                 {item.client}
-              </p>
+              </motion.p>
             </motion.div>
           )}
         </AnimatePresence>
@@ -143,7 +160,7 @@ function PortfolioCard({ item, isMobile }: { item: typeof ITEMS[0]; isMobile: bo
 
       {/* Mobile: text always visible below card */}
       {isMobile && (
-        <div style={{ padding: "10px 2px 18px" }}>
+        <div style={{ padding: "10px 2px 20px" }}>
           <div style={{ display: "flex", gap: 6, marginBottom: 6, flexWrap: "wrap" }}>
             {item.tags.map((tag) => (
               <span
@@ -152,7 +169,7 @@ function PortfolioCard({ item, isMobile }: { item: typeof ITEMS[0]; isMobile: bo
                   fontSize: 9,
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
-                  color: "rgba(0,0,0,0.45)",
+                  color: "rgba(0,0,0,0.42)",
                   fontWeight: 600,
                 }}
               >
@@ -181,7 +198,7 @@ function PortfolioCard({ item, isMobile }: { item: typeof ITEMS[0]; isMobile: bo
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 function WorkPageInner() {
-  const isMobile = useIsMobile();
+  const { isMobile } = useBreakpoint();
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category") ?? "all";
   const { navigate } = usePageTransition();
@@ -369,7 +386,7 @@ function WorkPageInner() {
           padding: isMobile ? "0 22px" : "0 40px 0 100px",
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-          gap: isMobile ? 0 : 16,
+          gap: isMobile ? 4 : 20,
         }}
       >
         <AnimatePresence mode="popLayout">
