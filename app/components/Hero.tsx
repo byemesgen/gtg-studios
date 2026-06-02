@@ -8,12 +8,35 @@ const YT_ID = "l4qXAeMAWUI";
 export default function Hero() {
   const [showreel, setShowreel] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [videoPlaying, setVideoPlaying] = useState(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // Reveal the video only once YouTube confirms it is actually playing.
+  // enablejsapi=1 makes YouTube broadcast playerState via postMessage.
+  // Hard fallback at 6 s covers ad-blockers / slow connections.
+  useEffect(() => {
+    const onMsg = (e: MessageEvent) => {
+      if (typeof e.data !== "string") return;
+      try {
+        const d = JSON.parse(e.data);
+        const playing =
+          (d.event === "infoDelivery" && d.info?.playerState === 1) ||
+          (d.event === "onStateChange" && d.info === 1);
+        if (playing) setVideoPlaying(true);
+      } catch { /* ignore non-JSON */ }
+    };
+    window.addEventListener("message", onMsg);
+    const fallback = setTimeout(() => setVideoPlaying(true), 6000);
+    return () => {
+      window.removeEventListener("message", onMsg);
+      clearTimeout(fallback);
+    };
   }, []);
 
   return (
@@ -47,7 +70,7 @@ export default function Hero() {
           }}
         >
           <iframe
-            src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&controls=0&disablekb=1&loop=1&playlist=${YT_ID}&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&fs=0`}
+            src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&controls=0&disablekb=1&loop=1&playlist=${YT_ID}&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&fs=0&enablejsapi=1`}
             allow="autoplay; fullscreen"
             allowFullScreen
             tabIndex={-1}
@@ -61,14 +84,13 @@ export default function Hero() {
           />
         </div>
 
-        {/* Color-matched blanket that hides YouTube's load-state controls.
-            Fades out after 1.8 s — by then autoplay has started and the
-            YouTube player UI has dismissed itself. Matches #040404 exactly
-            so the transition is invisible against the section background. */}
+        {/* Solid cover that hides YouTube's load-state controls.
+            Fades out the moment YouTube's postMessage confirms playerState=1.
+            Colour matches the section bg (#040404) so it's invisible at rest.
+            Falls back to revealing after 6 s if postMessage never fires. */}
         <motion.div
-          initial={{ opacity: 1 }}
-          animate={{ opacity: 0 }}
-          transition={{ duration: 0.9, delay: 1.8 }}
+          animate={{ opacity: videoPlaying ? 0 : 1 }}
+          transition={{ duration: 0.7 }}
           style={{
             position: "absolute",
             inset: 0,

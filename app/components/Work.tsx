@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/app/hooks/useIsMobile";
 import { usePageTransition } from "@/app/contexts/TransitionContext";
@@ -17,8 +17,28 @@ const categories = [
 
 export default function Work() {
   const [hovered, setHovered] = useState<number | null>(null);
+  const [videoPlaying, setVideoPlaying] = useState(false);
   const isMobile = useIsMobile();
   const { navigate } = usePageTransition();
+
+  useEffect(() => {
+    const onMsg = (e: MessageEvent) => {
+      if (typeof e.data !== "string") return;
+      try {
+        const d = JSON.parse(e.data);
+        const playing =
+          (d.event === "infoDelivery" && d.info?.playerState === 1) ||
+          (d.event === "onStateChange" && d.info === 1);
+        if (playing) setVideoPlaying(true);
+      } catch { /* ignore */ }
+    };
+    window.addEventListener("message", onMsg);
+    const fallback = setTimeout(() => setVideoPlaying(true), 6000);
+    return () => {
+      window.removeEventListener("message", onMsg);
+      clearTimeout(fallback);
+    };
+  }, []);
 
   return (
     <section
@@ -47,7 +67,7 @@ export default function Work() {
         }}
       >
         <iframe
-          src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&controls=0&disablekb=1&loop=1&playlist=${YT_ID}&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&fs=0`}
+          src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&controls=0&disablekb=1&loop=1&playlist=${YT_ID}&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&fs=0&enablejsapi=1`}
           allow="autoplay; fullscreen"
           allowFullScreen
           tabIndex={-1}
@@ -55,13 +75,10 @@ export default function Work() {
         />
       </div>
 
-      {/* Color-matched blanket that hides YouTube's load-state controls.
-          Fades out after 1.5 s (users scroll to this section so the video
-          gets extra load time before they arrive). */}
+      {/* Solid cover — hides YouTube controls until postMessage confirms playing */}
       <motion.div
-        initial={{ opacity: 1 }}
-        animate={{ opacity: 0 }}
-        transition={{ duration: 0.9, delay: 1.5 }}
+        animate={{ opacity: videoPlaying ? 0 : 1 }}
+        transition={{ duration: 0.7 }}
         style={{
           position: "absolute",
           inset: 0,
