@@ -22,9 +22,7 @@ export default async function Home() {
   return (
     <main>
       <Hero
-        backgroundVideoId={home?.hero?.backgroundVideoId}
-        showreelVideoId={home?.hero?.showreelVideoId}
-        playButtonLabel={home?.hero?.playButtonLabel}
+        slides={home?.heroSlides}
         wordmarkUrl={settings?.wordmarkLogoUrl}
       />
       <AnimatedText text={home?.introText} />

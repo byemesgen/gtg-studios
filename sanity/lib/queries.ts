@@ -35,10 +35,12 @@ export interface SiteSettings {
   socialLinks?: SocialLink[];
 }
 
-export interface HeroData {
-  backgroundVideoId?: string;
-  showreelVideoId?: string;
-  playButtonLabel?: string;
+export interface HeroSlide {
+  _key: string;
+  company: string;
+  projectName: string;
+  videoId: string;
+  url?: string;
 }
 
 export interface LogoImage {
@@ -48,7 +50,7 @@ export interface LogoImage {
 }
 
 export interface HomePageData {
-  hero?: HeroData;
+  heroSlides?: HeroSlide[];
   introText?: string;
   workVideoId?: string;
   brandsHeading?: string;
@@ -127,7 +129,7 @@ export const getSiteSettings = () =>
 export const getHomePage = () =>
   client.fetch<HomePageData | null>(
     `*[_id == "homePage"][0]{
-      hero,
+      heroSlides,
       introText,
       workVideoId,
       brandsHeading,
