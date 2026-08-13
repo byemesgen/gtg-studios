@@ -10,9 +10,11 @@ import type { FooterData, LegalPageData } from "@/sanity/lib/queries";
 export default function LegalPage({
   page,
   footer,
+  wordmarkUrl,
 }: {
   page: LegalPageData | null;
   footer: FooterData | null;
+  wordmarkUrl?: string;
 }) {
   const { isMobile } = useBreakpoint();
 
@@ -50,7 +52,7 @@ export default function LegalPage({
         </motion.div>
       </section>
 
-      <Footer data={footer} />
+      <Footer data={footer} wordmarkUrl={wordmarkUrl} />
     </main>
   );
 }

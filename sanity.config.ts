@@ -9,7 +9,6 @@ import { apiVersion, dataset, projectId } from "./sanity/env";
 
 const singletonTypes = new Set([
   "siteSettings",
-  "hero",
   "homePage",
   "workPage",
   "aboutPage",

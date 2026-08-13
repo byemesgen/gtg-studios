@@ -1,5 +1,4 @@
 import { siteSettings } from "./siteSettings";
-import { hero } from "./hero";
 import { homePage } from "./homePage";
 import { workCategory } from "./workCategory";
 import { project } from "./project";
@@ -10,7 +9,6 @@ import { privacyPage, termsPage } from "./legalPages";
 
 export const schemaTypes = [
   siteSettings,
-  hero,
   homePage,
   workCategory,
   project,

@@ -17,9 +17,11 @@ const fade = {
 export default function AboutClient({
   about,
   footer,
+  wordmarkUrl,
 }: {
   about: AboutPageData | null;
   footer: FooterData | null;
+  wordmarkUrl?: string;
 }) {
   const { isMobile, isTablet } = useBreakpoint();
 
@@ -131,7 +133,7 @@ export default function AboutClient({
         </div>
       </section>
 
-      <Footer data={footer} />
+      <Footer data={footer} wordmarkUrl={wordmarkUrl} />
     </main>
   );
 }

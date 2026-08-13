@@ -28,6 +28,8 @@ export interface SiteSettings {
   siteDescription?: string;
   faviconUrl?: string;
   ogImageUrl?: string;
+  sidebarLogoUrl?: string;
+  wordmarkLogoUrl?: string;
   navigation?: NavItem[];
   menuContact?: MenuContact;
   socialLinks?: SocialLink[];
@@ -46,6 +48,7 @@ export interface LogoImage {
 }
 
 export interface HomePageData {
+  hero?: HeroData;
   introText?: string;
   workVideoId?: string;
   brandsHeading?: string;
@@ -113,18 +116,18 @@ export const getSiteSettings = () =>
       siteDescription,
       "faviconUrl": favicon.asset->url,
       "ogImageUrl": ogImage.asset->url,
+      "sidebarLogoUrl": sidebarLogo.asset->url,
+      "wordmarkLogoUrl": wordmarkLogo.asset->url,
       navigation,
       menuContact,
       socialLinks
     }`
   );
 
-export const getHero = () =>
-  client.fetch<HeroData | null>(`*[_id == "hero"][0]`);
-
 export const getHomePage = () =>
   client.fetch<HomePageData | null>(
     `*[_id == "homePage"][0]{
+      hero,
       introText,
       workVideoId,
       brandsHeading,

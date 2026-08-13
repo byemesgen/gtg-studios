@@ -5,16 +5,16 @@ import Brands from "@/app/components/Brands";
 import Accolades from "@/app/components/Accolades";
 import Footer from "@/app/components/Footer";
 import {
-  getHero,
   getHomePage,
+  getSiteSettings,
   getWorkCategories,
   getFooter,
 } from "@/sanity/lib/queries";
 
 export default async function Home() {
-  const [hero, home, categories, footer] = await Promise.all([
-    getHero().catch(() => null),
+  const [home, settings, categories, footer] = await Promise.all([
     getHomePage().catch(() => null),
+    getSiteSettings().catch(() => null),
     getWorkCategories().catch(() => []),
     getFooter().catch(() => null),
   ]);
@@ -22,15 +22,16 @@ export default async function Home() {
   return (
     <main>
       <Hero
-        backgroundVideoId={hero?.backgroundVideoId}
-        showreelVideoId={hero?.showreelVideoId}
-        playButtonLabel={hero?.playButtonLabel}
+        backgroundVideoId={home?.hero?.backgroundVideoId}
+        showreelVideoId={home?.hero?.showreelVideoId}
+        playButtonLabel={home?.hero?.playButtonLabel}
+        wordmarkUrl={settings?.wordmarkLogoUrl}
       />
       <AnimatedText text={home?.introText} />
       <Work videoId={home?.workVideoId} categories={categories} />
       <Brands heading={home?.brandsHeading} logos={home?.brandLogos} />
       <Accolades heading={home?.accoladesHeading} logos={home?.accoladeLogos} />
-      <Footer data={footer} />
+      <Footer data={footer} wordmarkUrl={settings?.wordmarkLogoUrl} />
     </main>
   );
 }

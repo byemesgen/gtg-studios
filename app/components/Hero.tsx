@@ -7,10 +7,12 @@ export default function Hero({
   backgroundVideoId = "l4qXAeMAWUI",
   showreelVideoId,
   playButtonLabel = "Play Showreel",
+  wordmarkUrl = "/gtg-wordmark.svg",
 }: {
   backgroundVideoId?: string;
   showreelVideoId?: string;
   playButtonLabel?: string;
+  wordmarkUrl?: string;
 }) {
   const YT_ID = backgroundVideoId;
   const SHOWREEL_ID = showreelVideoId || backgroundVideoId;
@@ -180,7 +182,7 @@ export default function Hero({
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <motion.img
-            src="/gtg-wordmark.svg"
+            src={wordmarkUrl}
             alt="GTG Studios"
             initial={{ clipPath: "inset(100% 0 0 0)" }}
             animate={{ clipPath: "inset(0% 0 0 0)" }}

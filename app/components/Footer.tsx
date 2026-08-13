@@ -19,7 +19,13 @@ const DEFAULTS: FooterData = {
   ],
 };
 
-export default function Footer({ data }: { data?: FooterData | null }) {
+export default function Footer({
+  data,
+  wordmarkUrl = "/gtg-wordmark.svg",
+}: {
+  data?: FooterData | null;
+  wordmarkUrl?: string;
+}) {
   const year = new Date().getFullYear();
   const isMobile = useIsMobile();
   const { navigate } = usePageTransition();
@@ -120,7 +126,7 @@ export default function Footer({ data }: { data?: FooterData | null }) {
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/gtg-wordmark.svg"
+            src={wordmarkUrl}
             alt="GTG Studios"
             style={{ width: "100%", height: "auto", display: "block" }}
           />

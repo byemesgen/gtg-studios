@@ -1,5 +1,5 @@
 import LegalPage from "../components/LegalPage";
-import { getFooter, getPrivacyPage } from "@/sanity/lib/queries";
+import { getFooter, getPrivacyPage, getSiteSettings } from "@/sanity/lib/queries";
 
 export async function generateMetadata() {
   const page = await getPrivacyPage().catch(() => null);
@@ -7,9 +7,12 @@ export async function generateMetadata() {
 }
 
 export default async function PrivacyPage() {
-  const [page, footer] = await Promise.all([
+  const [page, footer, settings] = await Promise.all([
     getPrivacyPage().catch(() => null),
     getFooter().catch(() => null),
+    getSiteSettings().catch(() => null),
   ]);
-  return <LegalPage page={page} footer={footer} />;
+  return (
+    <LegalPage page={page} footer={footer} wordmarkUrl={settings?.wordmarkLogoUrl} />
+  );
 }

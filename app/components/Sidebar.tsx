@@ -44,6 +44,8 @@ export default function Sidebar({ settings }: { settings?: SiteSettings | null }
   const navItems = settings?.navigation?.length ? settings.navigation : DEFAULT_NAV;
   const contact = settings?.menuContact;
   const socials = settings?.socialLinks;
+  const sidebarLogoUrl = settings?.sidebarLogoUrl ?? "/logo.svg";
+  const wordmarkUrl = settings?.wordmarkLogoUrl ?? "/gtg-wordmark.svg";
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -127,7 +129,7 @@ export default function Sidebar({ settings }: { settings?: SiteSettings | null }
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/logo.svg"
+            src={sidebarLogoUrl}
             alt="GTG Studios"
             style={{
               width: isMobile ? 28 : 30,
@@ -262,7 +264,7 @@ export default function Sidebar({ settings }: { settings?: SiteSettings | null }
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/gtg-wordmark.svg"
+                    src={wordmarkUrl}
                     alt="GTG Studios"
                     style={{
                       width: "clamp(130px, 16vw, 210px)",

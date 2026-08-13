@@ -5,11 +5,28 @@ export const siteSettings = defineType({
   title: "Site Settings",
   type: "document",
   groups: [
+    { name: "brand", title: "Logos" },
     { name: "meta", title: "Meta & SEO" },
     { name: "nav", title: "Menu Navigation" },
     { name: "social", title: "Social Links" },
   ],
   fields: [
+    defineField({
+      name: "sidebarLogo",
+      title: "Sidebar Icon Logo",
+      description:
+        "The small icon in the red sidebar (opens the menu). Shown white — upload a white or transparent SVG/PNG.",
+      type: "image",
+      group: "brand",
+    }),
+    defineField({
+      name: "wordmarkLogo",
+      title: "Wordmark Logo",
+      description:
+        "The large GTG wordmark used at the bottom of the hero, in the menu, and in the footer. Upload a dark version — it's automatically shown white over video/dark backgrounds.",
+      type: "image",
+      group: "brand",
+    }),
     defineField({
       name: "siteTitle",
       title: "Site Title",

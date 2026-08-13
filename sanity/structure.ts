@@ -16,7 +16,6 @@ export const structure: StructureResolver = (S) =>
     .items([
       singleton(S, "Site Settings", "siteSettings"),
       S.divider(),
-      singleton(S, "Hero", "hero"),
       singleton(S, "Home Page", "homePage"),
       singleton(S, "Work Page", "workPage"),
       singleton(S, "About Page", "aboutPage"),
