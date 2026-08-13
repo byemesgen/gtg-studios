@@ -40,9 +40,9 @@ export const homePage = defineType({
             }),
             defineField({
               name: "url",
-              title: "Link",
+              title: "Click-through URL",
               description:
-                "Optional — custom URL opened when someone clicks the company/project text. Leave empty to make the text non-clickable.",
+                "Where the company name + project name link to when clicked (e.g. https://vimeo.com/… or an internal path like /work). Leave empty to make the text non-clickable.",
               type: "string",
             }),
           ],

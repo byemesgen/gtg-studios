@@ -13,7 +13,7 @@ const DEFAULT_SLIDES: HeroSlide[] = [
   },
 ];
 
-const SLIDE_DURATION_MS = 8000;
+const SLIDE_DURATION_MS = 12000;
 
 export default function Hero({
   slides: slideData,
