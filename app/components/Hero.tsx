@@ -159,14 +159,12 @@ export default function Hero() {
           </span>
         </div>
 
-        {/* GTG wordmark — above blur overlay, reveals upward via clip-path */}
+        {/* GTG wordmark — pinned bottom-right, above blur overlay */}
         <div
           style={{
             position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            padding: isMobile ? "0 16px 16px 16px" : "0 40px 40px 105px",
+            bottom: 4,
+            right: 4,
             pointerEvents: "none",
             lineHeight: 0,
             zIndex: 4,
