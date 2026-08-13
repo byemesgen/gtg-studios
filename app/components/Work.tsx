@@ -29,10 +29,27 @@ export default function Work({
   const { navigate } = usePageTransition();
 
   useEffect(() => {
+    // YouTube force-enables captions on muted autoplay; unload the module
+    // whenever the player emits events (covers loop restarts too).
+    const killCaptions = () => {
+      document
+        .querySelectorAll<HTMLIFrameElement>("#work iframe")
+        .forEach((f) => {
+          ["captions", "cc"].forEach((m) =>
+            f.contentWindow?.postMessage(
+              JSON.stringify({ event: "command", func: "unloadModule", args: [m] }),
+              "*"
+            )
+          );
+        });
+    };
     const onMsg = (e: MessageEvent) => {
       if (typeof e.data !== "string") return;
       try {
         const d = JSON.parse(e.data);
+        if (d.event === "infoDelivery" || d.event === "onStateChange") {
+          killCaptions();
+        }
         const playing =
           (d.event === "infoDelivery" && d.info?.playerState === 1) ||
           (d.event === "onStateChange" && d.info === 1);
@@ -40,9 +57,13 @@ export default function Work({
       } catch { /* ignore */ }
     };
     window.addEventListener("message", onMsg);
+    const burst = setInterval(killCaptions, 1000);
+    const stopBurst = setTimeout(() => clearInterval(burst), 15000);
     const fallback = setTimeout(() => setVideoPlaying(true), 6000);
     return () => {
       window.removeEventListener("message", onMsg);
+      clearInterval(burst);
+      clearTimeout(stopBurst);
       clearTimeout(fallback);
     };
   }, []);
