@@ -223,26 +223,6 @@ export default function Sidebar() {
                 overflow: "hidden",
               }}
             >
-              {/* Close button */}
-              <button
-                onClick={() => setOpen(false)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  color: "#000000",
-                  fontSize: 22,
-                  fontFamily: "inherit",
-                  fontWeight: 300,
-                  lineHeight: 1,
-                  alignSelf: "flex-start",
-                  padding: 0,
-                  marginBottom: 16,
-                }}
-              >
-                ×
-              </button>
-
               {/* Nav links */}
               <ul
                 style={{
