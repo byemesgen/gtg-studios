@@ -159,24 +159,26 @@ export default function Hero() {
           </span>
         </div>
 
-        {/* GTG wordmark — anchored to very bottom-right of hero */}
+        {/* GTG wordmark — above blur overlay, reveals upward via clip-path */}
         <div
           style={{
             position: "absolute",
             bottom: 0,
             left: 0,
             right: 0,
-            padding: isMobile ? "0 16px 0 16px" : "0 40px 0 40px",
+            padding: isMobile ? "0 16px 16px 16px" : "0 40px 40px 105px",
             pointerEvents: "none",
             lineHeight: 0,
-            display: "flex",
-            justifyContent: "flex-end",
+            zIndex: 4,
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <motion.img
             src="/gtg-wordmark.svg"
             alt="GTG Studios"
+            initial={{ clipPath: "inset(100% 0 0 0)" }}
+            animate={{ clipPath: "inset(0% 0 0 0)" }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             style={{
               width: isMobile ? "clamp(200px, 80vw, 320px)" : "clamp(320px, 55vw, 760px)",
               height: "auto",

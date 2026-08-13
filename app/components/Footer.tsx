@@ -63,20 +63,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Compass mark */}
-        <svg
-          viewBox="0 0 100 100"
-          fill="none"
-          style={{
-            width: isMobile ? 60 : "clamp(72px, 8vw, 120px)",
-            height: isMobile ? 60 : "clamp(72px, 8vw, 120px)",
-            flexShrink: 0,
-          }}
-        >
-          <circle cx="50" cy="50" r="46" stroke="rgba(0,0,0,0.45)" strokeWidth="1.5" />
-          <circle cx="50" cy="50" r="36" stroke="rgba(0,0,0,0.22)" strokeWidth="0.8" />
-          <path d="M50 8 L53.5 44 L92 50 L53.5 56 L50 92 L46.5 56 L8 50 L46.5 44 Z" fill="rgba(0,0,0,0.55)" />
-        </svg>
       </div>
 
       {/* ── Large wordmark ── */}

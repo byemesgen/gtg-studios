@@ -70,10 +70,10 @@ export default function Sidebar() {
               }),
         }}
       >
-        {/* Logo mark */}
+        {/* Logo mark — toggles nav menu */}
         <button
-          onClick={() => go("/")}
-          aria-label="GTG Studios — home"
+          onClick={() => setOpen((v) => !v)}
+          aria-label="Toggle menu"
           style={{
             background: "none",
             border: "none",
@@ -255,6 +255,26 @@ export default function Sidebar() {
                   gap: 0,
                 }}
               >
+                {/* GTG wordmark above HOME */}
+                <motion.li
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.02, duration: 0.4 }}
+                  style={{ marginBottom: "clamp(40px, 8vh, 72px)", lineHeight: 0 }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/gtg-wordmark.svg"
+                    alt="GTG Studios"
+                    style={{
+                      width: "clamp(130px, 16vw, 210px)",
+                      height: "auto",
+                      display: "block",
+                      filter: "brightness(0) invert(1)",
+                    }}
+                  />
+                </motion.li>
+
                 <NavItem label="HOME"      onClick={() => go("/")}                        bold delay={0.05} />
                 <NavItem label="WORK"      onClick={() => go("/work")}                   bold delay={0.1} />
                 <SubItem label="Studio"    onClick={() => go("/work?category=studio")}        delay={0.13} />
