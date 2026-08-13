@@ -258,10 +258,9 @@ export default function Sidebar() {
                 <NavItem label="HOME"      onClick={() => go("/")}                        bold delay={0.05} />
                 <NavItem label="WORK"      onClick={() => go("/work")}                   bold delay={0.1} />
                 <SubItem label="Studio"    onClick={() => go("/work?category=studio")}        delay={0.13} />
-                <SubItem label="Directors" onClick={() => go("/work/directors")}              delay={0.15} />
-                <SubItem label="VFX"       onClick={() => go("/work?category=vfx")}           delay={0.17} />
-                <SubItem label="Broadcast" onClick={() => go("/work?category=broadcast")}     delay={0.19} />
-                <SubItem label="Originals" onClick={() => go("/work?category=originals")}     delay={0.21} />
+                <SubItem label="VFX"       onClick={() => go("/work?category=vfx")}           delay={0.15} />
+                <SubItem label="Broadcast" onClick={() => go("/work?category=broadcast")}     delay={0.17} />
+                <SubItem label="Originals" onClick={() => go("/work?category=originals")}     delay={0.19} />
                 <NavItem label="ABOUT"     onClick={() => go("/about")}                  bold delay={0.26} />
               </ul>
 

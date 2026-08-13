@@ -9,7 +9,6 @@ const YT_ID = "Bcpu-jqAL6w";
 
 const categories = [
   { label: "Studio",    href: "/work?category=studio" },
-  { label: "Directors", href: "/work/directors" },
   { label: "VFX",       href: "/work?category=vfx" },
   { label: "Broadcast", href: "/work?category=broadcast" },
   { label: "Originals", href: "/work?category=originals" },

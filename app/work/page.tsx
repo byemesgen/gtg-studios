@@ -5,22 +5,21 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useBreakpoint } from "@/app/hooks/useBreakpoint";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-import { usePageTransition } from "@/app/contexts/TransitionContext";
 
 // ─── Portfolio data ───────────────────────────────────────────────────────────
 const ITEMS = [
   { id: 1,  title: "Rise As One",              client: "Nike",         category: "studio",    tags: ["Live Action", "VFX"] },
-  { id: 2,  title: "Edge of Impossible",        client: "Red Bull",     category: "directors", tags: ["Live Action"] },
+  { id: 2,  title: "Edge of Impossible",        client: "Red Bull",     category: "studio",    tags: ["Live Action"] },
   { id: 3,  title: "The Crown — S6 Promo",      client: "Netflix",      category: "broadcast", tags: ["VFX", "Motion Design"] },
   { id: 4,  title: "Impossible Is Nothing",     client: "Adidas",       category: "studio",    tags: ["Live Action", "3D"] },
-  { id: 5,  title: "Behind the Mac",            client: "Apple",        category: "directors", tags: ["Live Action"] },
+  { id: 5,  title: "Behind the Mac",            client: "Apple",        category: "studio",    tags: ["Live Action"] },
   { id: 6,  title: "Original Series Launch",    client: "HBO",          category: "broadcast", tags: ["VFX", "Animation"] },
   { id: 7,  title: "Year in Search",            client: "Google",       category: "studio",    tags: ["Live Action", "Motion Design"] },
-  { id: 8,  title: "The Drive",                 client: "BMW",          category: "directors", tags: ["Live Action", "VFX"] },
+  { id: 8,  title: "The Drive",                 client: "BMW",          category: "studio",    tags: ["Live Action", "VFX"] },
   { id: 9,  title: "Galaxy of Dreams",          client: "Disney+",      category: "originals", tags: ["3D", "Animation"] },
   { id: 10, title: "Wrapped 2024",              client: "Spotify",      category: "studio",    tags: ["2D", "Motion Design"] },
   { id: 11, title: "Prime Day Campaign",        client: "Amazon",       category: "broadcast", tags: ["VFX", "Live Action"] },
-  { id: 12, title: "Electric Future",           client: "Volkswagen",   category: "directors", tags: ["Live Action", "VFX"] },
+  { id: 12, title: "Electric Future",           client: "Volkswagen",   category: "studio",    tags: ["Live Action", "VFX"] },
   { id: 13, title: "Succession — Finale",       client: "HBO",          category: "broadcast", tags: ["Live Action"] },
   { id: 14, title: "Just Do It — 2024",         client: "Nike",         category: "vfx",       tags: ["VFX", "3D"] },
   { id: 15, title: "The Last of Us — S2",       client: "HBO",          category: "vfx",       tags: ["VFX", "Live Action"] },
@@ -30,7 +29,6 @@ const ITEMS = [
 const CATEGORIES = [
   { key: "all",       label: "All" },
   { key: "studio",    label: "Studio" },
-  { key: "directors", label: "Directors" },
   { key: "vfx",       label: "VFX" },
   { key: "broadcast", label: "Broadcast" },
   { key: "originals", label: "Originals" },
@@ -201,7 +199,6 @@ function WorkPageInner() {
   const { isMobile } = useBreakpoint();
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category") ?? "all";
-  const { navigate } = usePageTransition();
 
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [activeTag, setActiveTag] = useState<string | null>(null);
@@ -241,11 +238,7 @@ function WorkPageInner() {
           {CATEGORIES.filter((c) => c.key !== "all").map((cat) => (
             <button
               key={cat.key}
-              onClick={() =>
-                cat.key === "directors"
-                  ? navigate("/work/directors")
-                  : setActiveCategory(cat.key === activeCategory ? "all" : cat.key)
-              }
+              onClick={() => setActiveCategory(cat.key === activeCategory ? "all" : cat.key)}
               style={{
                 background:
                   activeCategory === cat.key
@@ -310,11 +303,7 @@ function WorkPageInner() {
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.key}
-                onClick={() =>
-                  cat.key === "directors"
-                    ? navigate("/work/directors")
-                    : setActiveCategory(cat.key)
-                }
+                onClick={() => setActiveCategory(cat.key)}
                 style={{
                   flexShrink: 0,
                   background:
