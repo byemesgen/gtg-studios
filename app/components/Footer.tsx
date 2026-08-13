@@ -80,30 +80,28 @@ export default function Footer() {
       </div>
 
       {/* ── Large wordmark ── */}
-      <div style={{ paddingLeft: pl, paddingRight: pr, paddingBottom: 0 }}>
+      <div style={{ paddingLeft: pl, paddingRight: pr, paddingBottom: 0, lineHeight: 0 }}>
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           style={{
             background: "none",
             border: "none",
             cursor: "pointer",
-            fontFamily: "inherit",
-            fontWeight: 700,
-            fontStyle: "italic",
-            fontSize: isMobile ? "clamp(3.2rem, 17vw, 6rem)" : "clamp(4rem, 14vw, 17rem)",
-            letterSpacing: "-0.03em",
-            color: "#000",
-            lineHeight: 0.88,
             padding: 0,
             display: "block",
             width: "100%",
-            textAlign: "left",
             transition: "opacity 0.3s",
           }}
           onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.55")}
           onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+          aria-label="Back to top"
         >
-          GTG Studios
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/gtg-wordmark.svg"
+            alt="GTG Studios"
+            style={{ width: "100%", height: "auto", display: "block" }}
+          />
         </button>
       </div>
 

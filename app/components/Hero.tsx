@@ -159,15 +159,16 @@ export default function Hero() {
           </span>
         </div>
 
-        {/* GTG wordmark — bottom of hero */}
+        {/* GTG wordmark — anchored to very bottom of hero */}
         <div
           style={{
             position: "absolute",
             bottom: 0,
             left: 0,
             right: 0,
-            padding: isMobile ? "0 16px 20px 16px" : "0 40px 28px 40px",
+            padding: isMobile ? "0 16px 0 16px" : "0 40px 0 40px",
             pointerEvents: "none",
+            lineHeight: 0,
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
