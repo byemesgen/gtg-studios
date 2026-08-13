@@ -3,9 +3,19 @@
 import { motion } from "framer-motion";
 import { useBreakpoint } from "@/app/hooks/useBreakpoint";
 
-const ACCOLADE_COUNT = 8;
+const DEFAULT_LOGOS = Array.from({ length: 8 }, (_, i) => ({
+  _key: `d${i}`,
+  url: `/logos/accolades/accolade-${String(i + 1).padStart(2, "0")}.svg`,
+  alt: `Award ${i + 1}`,
+}));
 
-export default function Accolades() {
+export default function Accolades({
+  heading = "Accolades",
+  logos = DEFAULT_LOGOS,
+}: {
+  heading?: string;
+  logos?: { _key: string; url: string; alt?: string }[];
+}) {
   const { isMobile, isTablet } = useBreakpoint();
   const size = isMobile ? 72 : isTablet ? 82 : 96;
 
@@ -36,7 +46,7 @@ export default function Accolades() {
           marginBottom: isMobile ? 32 : isTablet ? 40 : 48,
         }}
       >
-        Accolades
+        {heading}
       </motion.h3>
 
       <motion.div
@@ -53,9 +63,9 @@ export default function Accolades() {
           gap: isMobile ? 16 : isTablet ? 20 : 24,
         }}
       >
-        {Array.from({ length: ACCOLADE_COUNT }, (_, i) => i + 1).map((n) => (
+        {logos.map((logo) => (
           <motion.div
-            key={n}
+            key={logo._key}
             variants={{
               hidden: { opacity: 0, scale: 0.82, y: 12 },
               show: {
@@ -74,8 +84,8 @@ export default function Accolades() {
             }}
           >
             <img
-              src={`/logos/accolades/accolade-${String(n).padStart(2, "0")}.svg`}
-              alt={`Award ${n}`}
+              src={logo.url}
+              alt={logo.alt ?? ""}
               style={{
                 width: "100%",
                 height: "100%",

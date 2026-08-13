@@ -3,9 +3,17 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const YT_ID = "l4qXAeMAWUI";
-
-export default function Hero() {
+export default function Hero({
+  backgroundVideoId = "l4qXAeMAWUI",
+  showreelVideoId,
+  playButtonLabel = "Play Showreel",
+}: {
+  backgroundVideoId?: string;
+  showreelVideoId?: string;
+  playButtonLabel?: string;
+}) {
+  const YT_ID = backgroundVideoId;
+  const SHOWREEL_ID = showreelVideoId || backgroundVideoId;
   const [showreel, setShowreel] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
@@ -155,7 +163,7 @@ export default function Hero() {
               fontFamily: "inherit",
             }}
           >
-            Play Showreel
+            {playButtonLabel}
           </span>
         </div>
 
@@ -219,7 +227,7 @@ export default function Hero() {
               }}
             >
               <iframe
-                src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&rel=0&modestbranding=1`}
+                src={`https://www.youtube.com/embed/${SHOWREEL_ID}?autoplay=1&rel=0&modestbranding=1`}
                 allow="autoplay; fullscreen"
                 allowFullScreen
                 style={{ width: "100%", height: "100%", border: "none" }}

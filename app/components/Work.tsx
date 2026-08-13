@@ -5,16 +5,24 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/app/hooks/useIsMobile";
 import { usePageTransition } from "@/app/contexts/TransitionContext";
 
-const YT_ID = "Bcpu-jqAL6w";
-
-const categories = [
+const DEFAULT_CATEGORIES = [
   { label: "Studio",    href: "/work?category=studio" },
   { label: "VFX",       href: "/work?category=vfx" },
   { label: "Broadcast", href: "/work?category=broadcast" },
   { label: "Originals", href: "/work?category=originals" },
 ];
 
-export default function Work() {
+export default function Work({
+  videoId = "Bcpu-jqAL6w",
+  categories: categoryData,
+}: {
+  videoId?: string;
+  categories?: { title: string; slug: string }[];
+}) {
+  const YT_ID = videoId;
+  const categories = categoryData?.length
+    ? categoryData.map((c) => ({ label: c.title, href: `/work?category=${c.slug}` }))
+    : DEFAULT_CATEGORIES;
   const [hovered, setHovered] = useState<number | null>(null);
   const [videoPlaying, setVideoPlaying] = useState(false);
   const isMobile = useIsMobile();

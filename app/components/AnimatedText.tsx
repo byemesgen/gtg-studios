@@ -3,16 +3,11 @@
 import { useEffect, useRef } from "react";
 import { useBreakpoint } from "@/app/hooks/useBreakpoint";
 
-const WORDS = [
-  "We", "are", "a", "full-service",
-  "film", "and", "video", "production",
-  "company", "that", "fuses", "emotion,",
-  "craft", "and", "ambition", "to",
-  "make", "engaging", "content", "for",
-  "ambitious", "brands", "and", "global", "audiences.",
-];
+const DEFAULT_TEXT =
+  "We are a full-service film and video production company that fuses emotion, craft and ambition to make engaging content for ambitious brands and global audiences.";
 
-export default function AnimatedText() {
+export default function AnimatedText({ text = DEFAULT_TEXT }: { text?: string }) {
+  const WORDS = text.trim().split(/\s+/);
   const sectionRef = useRef<HTMLElement>(null);
   const { isMobile, isTablet } = useBreakpoint();
 

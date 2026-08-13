@@ -1,48 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useBreakpoint } from "@/app/hooks/useBreakpoint";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
-
-// ─── Portfolio data ───────────────────────────────────────────────────────────
-const ITEMS = [
-  { id: 1,  title: "Rise As One",              client: "Nike",         category: "studio",    tags: ["Live Action", "VFX"] },
-  { id: 2,  title: "Edge of Impossible",        client: "Red Bull",     category: "studio",    tags: ["Live Action"] },
-  { id: 3,  title: "The Crown — S6 Promo",      client: "Netflix",      category: "broadcast", tags: ["VFX", "Motion Design"] },
-  { id: 4,  title: "Impossible Is Nothing",     client: "Adidas",       category: "studio",    tags: ["Live Action", "3D"] },
-  { id: 5,  title: "Behind the Mac",            client: "Apple",        category: "studio",    tags: ["Live Action"] },
-  { id: 6,  title: "Original Series Launch",    client: "HBO",          category: "broadcast", tags: ["VFX", "Animation"] },
-  { id: 7,  title: "Year in Search",            client: "Google",       category: "studio",    tags: ["Live Action", "Motion Design"] },
-  { id: 8,  title: "The Drive",                 client: "BMW",          category: "studio",    tags: ["Live Action", "VFX"] },
-  { id: 9,  title: "Galaxy of Dreams",          client: "Disney+",      category: "originals", tags: ["3D", "Animation"] },
-  { id: 10, title: "Wrapped 2024",              client: "Spotify",      category: "studio",    tags: ["2D", "Motion Design"] },
-  { id: 11, title: "Prime Day Campaign",        client: "Amazon",       category: "broadcast", tags: ["VFX", "Live Action"] },
-  { id: 12, title: "Electric Future",           client: "Volkswagen",   category: "studio",    tags: ["Live Action", "VFX"] },
-  { id: 13, title: "Succession — Finale",       client: "HBO",          category: "broadcast", tags: ["Live Action"] },
-  { id: 14, title: "Just Do It — 2024",         client: "Nike",         category: "vfx",       tags: ["VFX", "3D"] },
-  { id: 15, title: "The Last of Us — S2",       client: "HBO",          category: "vfx",       tags: ["VFX", "Live Action"] },
-  { id: 16, title: "Summer Originals",          client: "Amazon Prime", category: "originals", tags: ["Live Action", "Motion Design"] },
-];
-
-const CATEGORIES = [
-  { key: "all",       label: "All" },
-  { key: "studio",    label: "Studio" },
-  { key: "vfx",       label: "VFX" },
-  { key: "broadcast", label: "Broadcast" },
-  { key: "originals", label: "Originals" },
-];
-
-const TAG_FILTERS = ["Animation", "3D", "Motion Design", "Character", "2D", "Live Action", "VFX", "Animotion"];
-
-function imgSrc(id: number) {
-  return `https://picsum.photos/seed/gtg${id}/800/450`;
-}
+import type { Project, WorkCategory } from "@/sanity/lib/queries";
 
 // ─── Card component ───────────────────────────────────────────────────────────
-function PortfolioCard({ item, isMobile }: { item: typeof ITEMS[0]; isMobile: boolean }) {
+function PortfolioCard({ item, isMobile }: { item: Project; isMobile: boolean }) {
   const [hovered, setHovered] = useState(false);
+  const tags = item.tags ?? [];
 
   return (
     <motion.article
@@ -64,18 +31,20 @@ function PortfolioCard({ item, isMobile }: { item: typeof ITEMS[0]; isMobile: bo
         }}
       >
         {/* Thumbnail */}
-        <motion.img
-          src={imgSrc(item.id)}
-          alt={item.title}
-          animate={{ scale: hovered ? 1.05 : 1 }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            display: "block",
-          }}
-        />
+        {item.imageUrl && (
+          <motion.img
+            src={`${item.imageUrl}?w=800&fit=max&auto=format`}
+            alt={item.title}
+            animate={{ scale: hovered ? 1.05 : 1 }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+            }}
+          />
+        )}
 
         {/* Hover overlay — desktop only */}
         <AnimatePresence>
@@ -103,7 +72,7 @@ function PortfolioCard({ item, isMobile }: { item: typeof ITEMS[0]; isMobile: bo
                 transition={{ duration: 0.25, delay: 0.08 }}
                 style={{ display: "flex", gap: 6, marginBottom: 10, flexWrap: "wrap" }}
               >
-                {item.tags.map((tag) => (
+                {tags.map((tag) => (
                   <span
                     key={tag}
                     style={{
@@ -160,7 +129,7 @@ function PortfolioCard({ item, isMobile }: { item: typeof ITEMS[0]; isMobile: bo
       {isMobile && (
         <div style={{ padding: "10px 2px 20px" }}>
           <div style={{ display: "flex", gap: 6, marginBottom: 6, flexWrap: "wrap" }}>
-            {item.tags.map((tag) => (
+            {tags.map((tag) => (
               <span
                 key={tag}
                 style={{
@@ -195,7 +164,15 @@ function PortfolioCard({ item, isMobile }: { item: typeof ITEMS[0]; isMobile: bo
 }
 
 // ─── Main page ────────────────────────────────────────────────────────────────
-function WorkPageInner() {
+function WorkPageInner({
+  heading,
+  categories,
+  projects,
+}: {
+  heading: string;
+  categories: WorkCategory[];
+  projects: Project[];
+}) {
   const { isMobile } = useBreakpoint();
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category") ?? "all";
@@ -208,9 +185,14 @@ function WorkPageInner() {
     setActiveCategory(searchParams.get("category") ?? "all");
   }, [searchParams]);
 
-  const filtered = ITEMS.filter((item) => {
+  const allCategories = [{ title: "All", slug: "all" }, ...categories];
+  const tagFilters = Array.from(new Set(projects.flatMap((p) => p.tags ?? [])));
+
+  const filtered = projects.filter((item) => {
     const catMatch = activeCategory === "all" || item.category === activeCategory;
-    const tagMatch = !activeTag || item.tags.some((t) => t.toLowerCase() === activeTag.toLowerCase());
+    const tagMatch =
+      !activeTag ||
+      (item.tags ?? []).some((t) => t.toLowerCase() === activeTag.toLowerCase());
     return catMatch && tagMatch;
   });
 
@@ -235,19 +217,19 @@ function WorkPageInner() {
             gap: 8,
           }}
         >
-          {CATEGORIES.filter((c) => c.key !== "all").map((cat) => (
+          {categories.map((cat) => (
             <button
-              key={cat.key}
-              onClick={() => setActiveCategory(cat.key === activeCategory ? "all" : cat.key)}
+              key={cat.slug}
+              onClick={() => setActiveCategory(cat.slug === activeCategory ? "all" : cat.slug)}
               style={{
                 background:
-                  activeCategory === cat.key
+                  activeCategory === cat.slug
                     ? "rgba(235, 42, 36, 0.12)"
                     : "rgba(240, 237, 232, 0.72)",
                 backdropFilter: "blur(14px)",
                 WebkitBackdropFilter: "blur(14px)",
                 border:
-                  activeCategory === cat.key
+                  activeCategory === cat.slug
                     ? "1px solid rgba(235,42,36,0.3)"
                     : "1px solid rgba(0,0,0,0.08)",
                 borderRadius: 100,
@@ -256,12 +238,12 @@ function WorkPageInner() {
                 fontWeight: 500,
                 letterSpacing: "0.01em",
                 cursor: "pointer",
-                color: activeCategory === cat.key ? "#EB2A24" : "#000",
+                color: activeCategory === cat.slug ? "#EB2A24" : "#000",
                 fontFamily: "inherit",
                 transition: "all 0.2s",
               }}
             >
-              {cat.label}
+              {cat.title}
             </button>
           ))}
         </div>
@@ -285,7 +267,7 @@ function WorkPageInner() {
             marginBottom: isMobile ? 24 : 32,
           }}
         >
-          WORK
+          {heading}
         </h1>
 
         {/* Mobile category pills */}
@@ -300,14 +282,14 @@ function WorkPageInner() {
               scrollbarWidth: "none",
             }}
           >
-            {CATEGORIES.map((cat) => (
+            {allCategories.map((cat) => (
               <button
-                key={cat.key}
-                onClick={() => setActiveCategory(cat.key)}
+                key={cat.slug}
+                onClick={() => setActiveCategory(cat.slug)}
                 style={{
                   flexShrink: 0,
                   background:
-                    activeCategory === cat.key
+                    activeCategory === cat.slug
                       ? "#EB2A24"
                       : "rgba(0,0,0,0.07)",
                   border: "none",
@@ -315,14 +297,14 @@ function WorkPageInner() {
                   padding: "7px 16px",
                   fontSize: 12,
                   fontWeight: 500,
-                  color: activeCategory === cat.key ? "#fff" : "#000",
+                  color: activeCategory === cat.slug ? "#fff" : "#000",
                   cursor: "pointer",
                   fontFamily: "inherit",
                   transition: "all 0.2s",
                   whiteSpace: "nowrap",
                 }}
               >
-                {cat.label}
+                {cat.title}
               </button>
             ))}
           </div>
@@ -340,7 +322,7 @@ function WorkPageInner() {
             marginBottom: isMobile ? 24 : 40,
           }}
         >
-          {TAG_FILTERS.map((tag) => (
+          {tagFilters.map((tag) => (
             <button
               key={tag}
               onClick={() =>
@@ -380,7 +362,7 @@ function WorkPageInner() {
       >
         <AnimatePresence mode="popLayout">
           {filtered.map((item) => (
-            <PortfolioCard key={item.id} item={item} isMobile={isMobile} />
+            <PortfolioCard key={item._id} item={item} isMobile={isMobile} />
           ))}
         </AnimatePresence>
 
@@ -394,10 +376,14 @@ function WorkPageInner() {
   );
 }
 
-export default function WorkPage() {
+export default function WorkClient(props: {
+  heading: string;
+  categories: WorkCategory[];
+  projects: Project[];
+}) {
   return (
     <Suspense>
-      <WorkPageInner />
+      <WorkPageInner {...props} />
     </Suspense>
   );
 }

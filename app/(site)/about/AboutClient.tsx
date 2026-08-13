@@ -3,45 +3,7 @@
 import { motion } from "framer-motion";
 import { useBreakpoint } from "@/app/hooks/useBreakpoint";
 import Footer from "@/app/components/Footer";
-
-const TEAM = [
-  {
-    id: 1,
-    name: "Sarah Mitchell",
-    title: "Founding Partner\nExecutive Creative Director",
-    img: "https://picsum.photos/seed/team1/600/700",
-  },
-  {
-    id: 2,
-    name: "David Okafor",
-    title: "Partner\nCreative Head of Studio",
-    img: "https://picsum.photos/seed/team2/600/700",
-  },
-  {
-    id: 3,
-    name: "Rachel Torres",
-    title: "Executive Producer\nManaging Director",
-    img: "https://picsum.photos/seed/team3/600/700",
-  },
-  {
-    id: 4,
-    name: "James Park",
-    title: "Head\nof Production",
-    img: "https://picsum.photos/seed/team4/600/700",
-  },
-  {
-    id: 5,
-    name: "Lena Fischer",
-    title: "VFX\n& Originals Producer",
-    img: "https://picsum.photos/seed/team5/600/700",
-  },
-  {
-    id: 6,
-    name: "Marcus Reid",
-    title: "Head\nof Broadcast",
-    img: "https://picsum.photos/seed/team6/600/700",
-  },
-];
+import type { AboutPageData, FooterData, TeamMember } from "@/sanity/lib/queries";
 
 const fade = {
   hidden: { opacity: 0, y: 20 },
@@ -52,8 +14,19 @@ const fade = {
   }),
 };
 
-export default function AboutPage() {
+export default function AboutClient({
+  about,
+  footer,
+}: {
+  about: AboutPageData | null;
+  footer: FooterData | null;
+}) {
   const { isMobile, isTablet } = useBreakpoint();
+
+  const heading = about?.heading ?? "ABOUT";
+  const paragraphs = about?.paragraphs ?? [];
+  const teamHeading = about?.teamHeading ?? "Our Team";
+  const teamMembers = about?.teamMembers ?? [];
 
   return (
     <main style={{ minHeight: "100vh", background: "#f0ede8", color: "#000" }}>
@@ -81,7 +54,7 @@ export default function AboutPage() {
             marginBottom: isMobile ? 24 : 40,
           }}
         >
-          ABOUT
+          {heading}
         </motion.h1>
 
         {/* Body copy */}
@@ -93,11 +66,7 @@ export default function AboutPage() {
             gap: isMobile ? 18 : 24,
           }}
         >
-          {[
-            "GTG Studios is an independently owned, artist-led creative studio that loves big ideas and great people. We are at the forefront of a new wave of interdisciplinary production practice.",
-            "We represent a diverse range of world-class commercial film and video directors. Our studio creates award-winning animation, motion design and VFX. Our full-service Broadcast facility cuts and finishes the biggest global formats and documentaries, and in Originals we dream up the content that we wished existed.",
-            "We explore lateral solutions, using next generation technology and bespoke tools. Located in Los Angeles, our team collaborates with our global network of established and emerging talent to deliver work that moves people.",
-          ].map((para, i) => (
+          {paragraphs.map((para, i) => (
             <motion.p
               key={i}
               initial={{ opacity: 0, y: 16 }}
@@ -141,7 +110,7 @@ export default function AboutPage() {
             marginBottom: isMobile ? 24 : 36,
           }}
         >
-          Our Team
+          {teamHeading}
         </motion.h2>
 
         {/* Team grid */}
@@ -156,13 +125,13 @@ export default function AboutPage() {
             gap: isMobile ? 12 : 16,
           }}
         >
-          {TEAM.map((member, i) => (
-            <TeamCard key={member.id} member={member} index={i} isMobile={isMobile} />
+          {teamMembers.map((member, i) => (
+            <TeamCard key={member._key} member={member} index={i} isMobile={isMobile} />
           ))}
         </div>
       </section>
 
-      <Footer />
+      <Footer data={footer} />
     </main>
   );
 }
@@ -172,7 +141,7 @@ function TeamCard({
   index,
   isMobile,
 }: {
-  member: (typeof TEAM)[0];
+  member: TeamMember;
   index: number;
   isMobile: boolean;
 }) {
@@ -194,18 +163,20 @@ function TeamCard({
       }}
     >
       {/* Photo with red duotone overlay */}
-      <img
-        src={member.img}
-        alt={member.name}
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          display: "block",
-          mixBlendMode: "luminosity",
-          filter: "contrast(1.1)",
-        }}
-      />
+      {member.photoUrl && (
+        <img
+          src={`${member.photoUrl}?w=600&fit=max&auto=format`}
+          alt={member.name}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block",
+            mixBlendMode: "luminosity",
+            filter: "contrast(1.1)",
+          }}
+        />
+      )}
       {/* Red tint overlay */}
       <div
         style={{
@@ -248,7 +219,7 @@ function TeamCard({
             whiteSpace: "pre-line",
           }}
         >
-          {member.title}
+          {member.role}
         </p>
       </div>
     </motion.div>

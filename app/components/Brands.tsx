@@ -3,9 +3,22 @@
 import { motion } from "framer-motion";
 import { useBreakpoint } from "@/app/hooks/useBreakpoint";
 
-const BRAND_COUNT = 18;
+const DEFAULT_LOGOS = Array.from({ length: 18 }, (_, i) => ({
+  _key: `d${i}`,
+  url: `/logos/brands/brand-${String(i + 1).padStart(2, "0")}.svg`,
+  alt: `Client ${i + 1}`,
+}));
 
-export default function Brands() {
+const DEFAULT_HEADING =
+  "We work with the biggest brands, broadcasters, agencies and marketers, in collaboration with the best creative minds around.";
+
+export default function Brands({
+  heading = DEFAULT_HEADING,
+  logos = DEFAULT_LOGOS,
+}: {
+  heading?: string;
+  logos?: { _key: string; url: string; alt?: string }[];
+}) {
   const { isMobile, isTablet } = useBreakpoint();
 
   const cols = isMobile ? 4 : isTablet ? 6 : 9;
@@ -43,8 +56,7 @@ export default function Brands() {
           marginBottom: isMobile ? 36 : isTablet ? 48 : 60,
         }}
       >
-        We work with the biggest brands, broadcasters, agencies and marketers,
-        in collaboration with the best creative minds around.
+        {heading}
       </motion.p>
 
       {/* Logo grid */}
@@ -62,9 +74,9 @@ export default function Brands() {
           border: "1px solid rgba(0,0,0,0.15)",
         }}
       >
-        {Array.from({ length: BRAND_COUNT }, (_, i) => i + 1).map((n) => (
+        {logos.map((logo) => (
           <motion.div
-            key={n}
+            key={logo._key}
             variants={{
               hidden: { opacity: 0 },
               show: { opacity: 1, transition: { duration: 0.4 } },
@@ -80,8 +92,8 @@ export default function Brands() {
             }}
           >
             <img
-              src={`/logos/brands/brand-${String(n).padStart(2, "0")}.svg`}
-              alt={`Client ${n}`}
+              src={logo.url}
+              alt={logo.alt ?? ""}
               style={{
                 height: logoPx,
                 maxWidth: "85%",

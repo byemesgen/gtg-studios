@@ -1,0 +1,60 @@
+import { defineField, defineType } from "sanity";
+
+export const homePage = defineType({
+  name: "homePage",
+  title: "Home Page",
+  type: "document",
+  fields: [
+    defineField({
+      name: "introText",
+      title: "Intro Statement",
+      description: "The large animated statement under the hero (“We are a full-service film and video…”).",
+      type: "text",
+      rows: 4,
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "workVideoId",
+      title: "Work Section Background Video (YouTube ID)",
+      description: "Looping video behind the category links section.",
+      type: "string",
+    }),
+    defineField({
+      name: "brandsHeading",
+      title: "Brands Heading",
+      type: "text",
+      rows: 3,
+    }),
+    defineField({
+      name: "brandLogos",
+      title: "Brand Logos",
+      description: "Client / brand logos shown in the grid.",
+      type: "array",
+      of: [
+        {
+          type: "image",
+          fields: [defineField({ name: "alt", title: "Brand name", type: "string" })],
+        },
+      ],
+    }),
+    defineField({
+      name: "accoladesHeading",
+      title: "Accolades Heading",
+      type: "string",
+      initialValue: "Accolades",
+    }),
+    defineField({
+      name: "accoladeLogos",
+      title: "Accolade Badges",
+      description: "Award badges shown under the Accolades heading.",
+      type: "array",
+      of: [
+        {
+          type: "image",
+          fields: [defineField({ name: "alt", title: "Award name", type: "string" })],
+        },
+      ],
+    }),
+  ],
+  preview: { prepare: () => ({ title: "Home Page" }) },
+});
