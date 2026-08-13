@@ -36,22 +36,19 @@ export default function LoadingScreen() {
             pointerEvents: "none",
           }}
         >
-          <motion.span
+          <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            style={{
-              fontSize: "clamp(3.5rem, 10vw, 11rem)",
-              fontWeight: 700,
-              fontStyle: "italic",
-              color: "#ffffff",
-              letterSpacing: "-0.03em",
-              lineHeight: 0.85,
-              fontFamily: "inherit",
-            }}
+            style={{ color: "#ffffff", width: "clamp(240px, 55vw, 700px)" }}
           >
-            GTG Studios
-          </motion.span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/gtg-wordmark.svg"
+              alt="GTG Studios"
+              style={{ width: "100%", height: "auto", display: "block", filter: "brightness(0) invert(1)" }}
+            />
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

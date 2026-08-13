@@ -159,57 +159,28 @@ export default function Hero() {
           </span>
         </div>
 
-        {/* MASSIVE studio name overlay — bottom of hero */}
+        {/* GTG wordmark — bottom of hero */}
         <div
           style={{
             position: "absolute",
             bottom: 0,
             left: 0,
             right: 0,
-            padding: isMobile ? "0 16px 16px 16px" : "0 30px 0 40px",
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
+            padding: isMobile ? "0 16px 20px 16px" : "0 40px 28px 40px",
             pointerEvents: "none",
-            lineHeight: 0.85,
           }}
         >
-          <h1
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/gtg-wordmark.svg"
+            alt="GTG Studios"
             style={{
-              fontSize: isMobile ? "clamp(2.8rem, 14vw, 5rem)" : "clamp(4rem, 13vw, 16rem)",
-              fontWeight: 700,
-              fontStyle: "italic",
-              color: "#ffffff",
-              letterSpacing: "-0.03em",
-              fontFamily: "inherit",
-              whiteSpace: isMobile ? "normal" : "nowrap",
+              width: isMobile ? "clamp(200px, 80vw, 320px)" : "clamp(320px, 55vw, 760px)",
+              height: "auto",
+              display: "block",
+              filter: "brightness(0) invert(1)",
             }}
-          >
-            GTG Studios
-          </h1>
-
-          {/* Circle compass mark — mirrors Piranha Bar logo mark */}
-          <div
-            style={{
-              width: "clamp(48px, 7vw, 110px)",
-              height: "clamp(48px, 7vw, 110px)",
-              borderRadius: "50%",
-              border: "2px solid rgba(255,255,255,0.8)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexShrink: 0,
-              marginBottom: "clamp(8px, 2vw, 24px)",
-            }}
-          >
-            <svg
-              viewBox="0 0 40 40"
-              fill="white"
-              style={{ width: "55%", height: "55%" }}
-            >
-              <path d="M20 2 L22.5 17.5 L38 20 L22.5 22.5 L20 38 L17.5 22.5 L2 20 L17.5 17.5 Z" />
-            </svg>
-          </div>
+          />
         </div>
       </section>
 
